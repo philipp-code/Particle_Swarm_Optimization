@@ -1,6 +1,3 @@
-source("pso_test.R")
-
-
 fitness = function(x, y) {
   x**2 + (y + 1) ** 2 - 5 * cos(1.5 * x + 1.5) - 5 * cos(2 * y - 1.5)
 }
@@ -92,9 +89,16 @@ pso = setRefClass("pso",
                             cex.main = 1)
                       # contour(x_image[,1], x_image[,2], z, nlevels=10, add=TRUE, col="grey50")
                       # points(particles[ ,1], particles[ ,2], pch=19, col="darkslateblue")
+                      
+                      U = velocities[ ,1]
+                      V = velocities[ ,2]
+                      N = sqrt(U**2+V**2)
+                      U = U/N
+                      V = V/N
+                      
                       suppressWarnings(arrows(particles[ ,1], particles[ ,2], 
-                                              particles[ ,1]+velocities[ ,1], 
-                                              particles[ ,2]+velocities[ ,2], 
+                                              particles[ ,1]+U, 
+                                              particles[ ,2]+V, 
                                               length=0.1, col="darkslateblue"))
                     }
                   ))
