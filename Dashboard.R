@@ -3,7 +3,10 @@
 ####
 library(shiny)
 library(DT)
-View(iris)
+library(plotly)
+source("function_gallery_plots.R")
+source("PSO.R")
+
 #UI
 
 ui <- navbarPage("Test DHBW", 
@@ -44,11 +47,48 @@ ui <- navbarPage("Test DHBW",
                             )
                           )
                  ),
-                 tabPanel("Functionality of Algorithm", icon=icon("robot"),
-                          h3("Hier wird die Funktionalitaet des Algoithmus beschrieben"),
-                          hr(),
-                          br(),
-                          DT::dataTableOutput("myTable")
+                 tabPanel("Function Gallery", icon = icon("photo"),
+                          
+                          h3("Function Gallery"),
+                          
+                          sidebarLayout(
+                            
+                            sidebarPanel(
+                              
+                              selectInput(
+                                inputId = "function_type_select",
+                                label = "Type of Function:",
+                                choices = c("Continuous", "Non-Continuous")
+                              ),
+                              
+                              selectInput(
+                                inputId = "function_select",
+                                label = "Function:",
+                                choices = character(0)
+                                
+                              ),
+                              selectInput(
+                                inputId = "color_select",
+                                label = "Color:",
+                                choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
+                              ),
+                              
+                              sliderInput(
+                                inputId = "alpha_select",
+                                label = "Transparency:",
+                                value = 0.9,
+                                min = 0.0,
+                                max = 1.0
+                              )
+                              
+                            ),
+                            
+                            mainPanel(
+                              
+                              plotlyOutput("PlotFunction")
+                              
+                            )
+                          )
                  )
 )
 
@@ -56,36 +96,12 @@ ui <- navbarPage("Test DHBW",
 #Server
 
 server <- function(input, output, session) {
+  
+  ### PSO functionality
   pso = init_pso(100)
-  
-  selectedData <- reactive({
-    iris[, c(input$xcol, input$ycol)]
-  })
-  
-  clusters <- reactive({
-    kmeans(selectedData(), input$clusters)
-  })
-  
+
   pso_output = reactive({
     run_pso(input$iter, 100)
-  })
-  
-  output$PlotKMeans <- renderPlot({
-    
-    req(input$xcol)
-    req(input$ycol)
-    req(input$clusters)
-    
-    par(mar = c(5.1, 4.1, 0, 1))
-    plot(selectedData(),
-         col = clusters()$cluster,
-         pch = 20, cex = 3)
-    points(clusters()$centers, pch = 4, cex = 4, lwd = 4)
-    
-  })
-  
-  output$myTable = DT::renderDataTable({
-    iris
   })
   
   output$render_optim = renderText({
@@ -101,6 +117,32 @@ server <- function(input, output, session) {
     # plot(pso$particles[ ,1], pso$particles[ ,2], xlim=c(-5, 5), ylim=c(-5, 5))
     pso$plot_state()
   })
+  
+  ### Gallery functionality
+  observe({ # change function input based on function type -> to Non-Continuous
+    x <- input$function_type_select
+    
+    if (x == "Non-Continuous") 
+      
+      updateSelectInput(session, "function_select",
+                        choices = c("Function 1", "Function 2", "Function 3"))
+  })
+  
+  observe({ # change function input based on function type to Continuous
+    x <- input$function_type_select
+    
+    if (x == "Continuous") 
+      
+      updateSelectInput(session, "function_select",
+                        choices = c("Himmelblau", "Rosenbrock", "Rastrigin", "Eggholder"))
+  })
+  
+  output$PlotFunction <- renderPlotly({
+    
+    generate_gallery_plot(input)
+    
+  })
+  
 }
 
 
