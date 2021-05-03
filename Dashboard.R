@@ -11,7 +11,28 @@ source("PSO.R")
 
 ui <- fluidPage(
                  titlePanel("Particle Swarm Optimization"),
+                 
                  tabsetPanel(
+                   tabPanel("Introduction", icon=icon("info"),
+                            column(1),
+                            
+                            column(4, 
+                                   br(),br(),
+                                   uiOutput("process_step_n")
+                                   ),
+                            
+                            column(3,
+                                   br(),
+                                   actionButton("process_b", "Back"),
+                                   actionButton("process_f", "Forward"),
+                                   ),
+                            column(3
+                                   
+                              
+                            )
+                     
+                   ),
+                   
                  tabPanel("Vizualization of Algorithm", icon=icon("info"),
                           h3("Das ist ein Test"),
                           sidebarLayout(
@@ -107,7 +128,53 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  ### PSO functionality
+#=================== Introduction ===================================
+  step_counter <- reactiveValues(process_step = 1)
+  
+  observeEvent(input$process_f, { # button to go forward
+    if (step_counter$process_step > 6) {
+      step_counter$process_step <- 1
+    } else {
+      step_counter$process_step <- step_counter$process_step + 1     # if the add button is clicked, increment the value by 1 and update it
+    }
+  })
+  
+  observeEvent(input$process_b, { # button to go backward
+    if (step_counter$process_step < 2) {
+      step_counter$process_step <- 7
+    } else {
+      step_counter$process_step <- step_counter$process_step - 1     # if the add button is clicked, decrement the value by 1 and update it
+    }
+    })
+  
+  output$process_step_n <- renderUI({
+    
+    if (step_counter$process_step == 1) {
+      img(src = "process.png", height = 400)
+      
+    } else if (step_counter$process_step == 2) {
+      img(src = "step_1.png", height = 400)
+      
+    } else if (step_counter$process_step == 3) {
+      img(src = "step_2.png", height = 400)
+      
+    } else if (step_counter$process_step == 4) {
+      img(src = "step_3.png", height = 400)
+      
+    } else if (step_counter$process_step == 5) {
+      img(src = "step_4.png", height = 400)
+    
+    } else if (step_counter$process_step == 6) {
+      img(src = "step_5.png", height = 400)
+      
+    } else if (step_counter$process_step == 7) {
+      img(src = "step_6.png", height = 400)
+      
+    } 
+    
+  })
+  
+#=================== PSO functionality ==============================
   pso = init_pso(100)
 
   pso_output = reactive({
@@ -128,7 +195,7 @@ server <- function(input, output, session) {
     pso$plot_state()
   })
   
-  ### Gallery functionality
+#================= Gallery functionality ============================
   
   observe({ # change function input based on function type -> to Non-Continuous
     x <- input$function_type_select
