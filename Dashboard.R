@@ -9,7 +9,9 @@ source("PSO.R")
 
 #UI
 
-ui <- navbarPage("Test DHBW", 
+ui <- fluidPage(
+                 titlePanel("Particle Swarm Optimization"),
+                 tabsetPanel(
                  tabPanel("Vizualization of Algorithm", icon=icon("info"),
                           h3("Das ist ein Test"),
                           sidebarLayout(
@@ -75,7 +77,7 @@ ui <- navbarPage("Test DHBW",
                               
                               sliderInput(
                                 inputId = "alpha_select",
-                                label = "Transparency:",
+                                label = "Opacity:",
                                 value = 0.9,
                                 min = 0.0,
                                 max = 1.0
@@ -94,7 +96,7 @@ ui <- navbarPage("Test DHBW",
                                 )
                               )
                               
-                              
+                            )
                             )
                           )
                  )
@@ -151,7 +153,7 @@ server <- function(input, output, session) {
     z <- generate_gallery_plot(input)
     
     fig1 <- plot_ly(z = ~z, colors = input$color_select, 
-                   alpha = input$alpha_select, showscale=FALSE, scene='scene1') %>% add_surface()
+                   alpha = input$alpha_select, showscale=FALSE) %>% add_surface()
 
   })
   
@@ -160,7 +162,7 @@ server <- function(input, output, session) {
     z <- generate_gallery_plot(input)
 
     fig2 <- plot_ly(z = ~z, type = "contour", colors = input$color_select, 
-                    alpha = input$alpha_select, showscale=FALSE, scene='scene2')
+                    alpha = input$alpha_select, showscale=FALSE)
     
   })
   
