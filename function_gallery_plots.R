@@ -48,13 +48,8 @@ generate_gallery_plot <- function(input){
     
   }
   
-  
   z <- mapply(fun, list(xs), ys)
   
-  fig <- plot_ly(z = ~z, colors = input$color_select, width=700, height=500, 
-                 alpha = input$alpha_select, showscale=FALSE)
-  plot <- fig %>% add_surface()
-  
-  return(plot)
+  return(z)
 }
 

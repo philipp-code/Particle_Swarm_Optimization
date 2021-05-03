@@ -85,7 +85,15 @@ ui <- navbarPage("Test DHBW",
                             
                             mainPanel(
                               
-                              plotlyOutput("PlotFunction")
+                              fluidRow(
+                                column(6,
+                                       plotlyOutput("plot_surface")
+                                ),
+                                column(6,
+                                       plotlyOutput("plot_contour")
+                                )
+                              )
+                              
                               
                             )
                           )
@@ -119,6 +127,7 @@ server <- function(input, output, session) {
   })
   
   ### Gallery functionality
+  
   observe({ # change function input based on function type -> to Non-Continuous
     x <- input$function_type_select
     
@@ -137,13 +146,24 @@ server <- function(input, output, session) {
                         choices = c("Himmelblau", "Rosenbrock", "Rastrigin", "Eggholder"))
   })
   
-  output$PlotFunction <- renderPlotly({
+  output$plot_surface <- renderPlotly({
     
-    generate_gallery_plot(input)
+    z <- generate_gallery_plot(input)
+    
+    fig1 <- plot_ly(z = ~z, colors = input$color_select, 
+                   alpha = input$alpha_select, showscale=FALSE, scene='scene1') %>% add_surface()
+
+  })
+  
+  output$plot_contour <- renderPlotly({
+    
+    z <- generate_gallery_plot(input)
+
+    fig2 <- plot_ly(z = ~z, type = "contour", colors = input$color_select, 
+                    alpha = input$alpha_select, showscale=FALSE, scene='scene2')
     
   })
   
 }
-
 
 shinyApp(ui, server)
