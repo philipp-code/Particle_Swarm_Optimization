@@ -10,145 +10,143 @@ source("PSO.R")
 #UI
 
 ui <- fluidPage(
-                 titlePanel("Particle Swarm Optimization"),
-                 
-                 tabsetPanel(
-                   tabPanel("Introduction", icon=icon("info"),
-                            column(1),
-                            
-                            column(4, 
-                                   br(),br(),
-                                   uiOutput("process_step_n")
-                                   ),
-                            
-                            column(3,
-                                   br(),
-                                   actionButton("process_b", "Back"),
-                                   actionButton("process_f", "Forward"),
-                                   ),
-                            column(3
-                                   
-                              
-                            )
-                     
-                   ),
-                   
-                 tabPanel("Vizualization of Algorithm", icon=icon("info"),
-                          h3("Das ist ein Test"),
-                          sidebarLayout(
-                            sidebarPanel(
-                              selectInput(
-                                inputId = "xcol",
-                                label = "X Variable",
-                                choices = names(iris)
-                              ),
-                              selectInput(
-                                inputId = "ycol",
-                                label = "Y Variable",
-                                choices = c("Choose a variable" = "", names(iris))
-                              ),
-                              numericInput(
-                                inputId = "clusters",
-                                label = "Clusters count",
-                                value = 3,
-                                min = 1,
-                                max = 9
-                              ),
-                              sliderInput(
-                                inputId = "iter",
-                                label = "PSO Iteration",
-                                value = 1,
-                                min = 1,
-                                max = 101,
-                                step = 1,
-                                animate = animationOptions(interval = 100)
-                              )
-                            ),
-                            mainPanel(
-                              # h4(textOutput("render_optim")),
-                              plotOutput("render_particles", width = 500, height = 500)
-                            )
-                          )
-                 ),
-                 tabPanel("Function Gallery", icon = icon("photo"),
-                          
-                          h3("Function Gallery"),
-                          
-                          sidebarLayout(
-                            
-                            sidebarPanel(
-                              
-                              selectInput(
-                                inputId = "function_type_select",
-                                label = "Type of Function:",
-                                choices = c("Continuous", "Non-Continuous")
-                              ),
-                              
-                              selectInput(
-                                inputId = "function_select",
-                                label = "Function:",
-                                choices = character(0)
-                                
-                              ),
-                              selectInput(
-                                inputId = "color_select",
-                                label = "Color:",
-                                choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
-                              ),
-                              
-                              sliderInput(
-                                inputId = "alpha_select",
-                                label = "Opacity:",
-                                value = 0.9,
-                                min = 0.0,
-                                max = 1.0
-                              )
-                              
-                            ),
-                            
-                            mainPanel(
-                              
-                              fluidRow(
-                                column(6,
-                                       plotlyOutput("plot_surface")
-                                ),
-                                column(6,
-                                       plotlyOutput("plot_contour")
-                                )
-                              )
-                              
-                            )
-                            )
-                          )
-                 )
+  titlePanel("Particle Swarm Optimization"),
+  
+  tabsetPanel(
+    tabPanel(
+      "Introduction",
+      icon = icon("info"),
+      column(1),
+      
+      column(4,
+             br(), br(),
+             uiOutput("process_step_n")),
+      
+      column(
+        3,
+        br(),
+        actionButton("process_b", "Back"),
+        actionButton("process_f", "Forward")
+      ),
+      column(3)
+      
+    ),
+    
+
+    tabPanel(
+      "Gallery",
+      icon = icon("photo"),
+      
+      h3("Function Gallery"),
+      
+      sidebarLayout(
+        sidebarPanel(
+          selectInput(
+            inputId = "function_type_select",
+            label = "Type of Function:",
+            choices = c("Continuous", "Non-Continuous")
+          ),
+          
+          selectInput(
+            inputId = "function_select",
+            label = "Function:",
+            choices = character(0)
+            
+          ),
+          selectInput(
+            inputId = "color_select",
+            label = "Color:",
+            choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
+          ),
+          
+          sliderInput(
+            inputId = "alpha_select",
+            label = "Opacity:",
+            value = 0.9,
+            min = 0.0,
+            max = 1.0
+          )
+          
+        ),
+        
+        mainPanel(fluidRow(
+          column(6,
+                 plotlyOutput("plot_surface")),
+          column(6,
+                 plotlyOutput("plot_contour"))
+        ))
+      )
+    ),
+    tabPanel(
+      "Functionality",
+      icon = icon("wrench"),
+      h3("Das ist ein Test"),
+      sidebarLayout(
+        sidebarPanel(
+          selectInput(
+            inputId = "xcol",
+            label = "X Variable",
+            choices = names(iris)
+          ),
+          selectInput(
+            inputId = "ycol",
+            label = "Y Variable",
+            choices = c("Choose a variable" = "", names(iris))
+          ),
+          numericInput(
+            inputId = "clusters",
+            label = "Clusters count",
+            value = 3,
+            min = 1,
+            max = 9
+          ),
+          sliderInput(
+            inputId = "iter",
+            label = "PSO Iteration",
+            value = 1,
+            min = 1,
+            max = 101,
+            step = 1,
+            animate = animationOptions(interval = 100)
+          )
+        ),
+        mainPanel(# h4(textOutput("render_optim")),
+          plotOutput(
+            "render_particles", width = 500, height = 500
+          ))
+      )
+    )
+  )
 )
 
 #================
 #Server
 
 server <- function(input, output, session) {
-  
-#=================== Introduction ===================================
+  #=================== Introduction ===================================
   step_counter <- reactiveValues(process_step = 1)
   
-  observeEvent(input$process_f, { # button to go forward
+  observeEvent(input$process_f, {
+    # button to go forward
     if (step_counter$process_step > 6) {
       step_counter$process_step <- 1
     } else {
-      step_counter$process_step <- step_counter$process_step + 1     # if the add button is clicked, increment the value by 1 and update it
+      step_counter$process_step <-
+        step_counter$process_step + 1     # if the add button is clicked, increment the value by 1 and update it
     }
   })
   
-  observeEvent(input$process_b, { # button to go backward
+  observeEvent(input$process_b, {
+    # button to go backward
     if (step_counter$process_step < 2) {
       step_counter$process_step <- 7
     } else {
-      step_counter$process_step <- step_counter$process_step - 1     # if the add button is clicked, decrement the value by 1 and update it
+      step_counter$process_step <-
+        step_counter$process_step - 1     # if the add button is clicked, decrement the value by 1 and update it
     }
-    })
+  })
   
   output$process_step_n <- renderUI({
-    
     if (step_counter$process_step == 1) {
       img(src = "process.png", height = 400)
       
@@ -163,20 +161,20 @@ server <- function(input, output, session) {
       
     } else if (step_counter$process_step == 5) {
       img(src = "step_4.png", height = 400)
-    
+      
     } else if (step_counter$process_step == 6) {
       img(src = "step_5.png", height = 400)
       
     } else if (step_counter$process_step == 7) {
       img(src = "step_6.png", height = 400)
       
-    } 
+    }
     
   })
   
-#=================== PSO functionality ==============================
+  #=================== PSO functionality ==============================
   pso = init_pso(100)
-
+  
   pso_output = reactive({
     run_pso(input$iter, 100)
   })
@@ -186,7 +184,7 @@ server <- function(input, output, session) {
   })
   
   output$render_particles = renderPlot({
-    if (input$iter == pso$iter+1) {
+    if (input$iter == pso$iter + 1) {
       pso$next_i()
     } else {
       pso <<- pso_output()
@@ -195,41 +193,55 @@ server <- function(input, output, session) {
     pso$plot_state()
   })
   
-#================= Gallery functionality ============================
+  #================= Gallery functionality ============================
   
-  observe({ # change function input based on function type -> to Non-Continuous
+  observe({
+    # change function input based on function type -> to Non-Continuous
     x <- input$function_type_select
     
-    if (x == "Non-Continuous") 
+    if (x == "Non-Continuous")
       
-      updateSelectInput(session, "function_select",
+      updateSelectInput(session,
+                        "function_select",
                         choices = c("Function 1", "Function 2", "Function 3"))
   })
   
-  observe({ # change function input based on function type to Continuous
+  observe({
+    # change function input based on function type to Continuous
     x <- input$function_type_select
     
-    if (x == "Continuous") 
+    if (x == "Continuous")
       
-      updateSelectInput(session, "function_select",
-                        choices = c("Himmelblau", "Rosenbrock", "Rastrigin", "Eggholder"))
+      updateSelectInput(
+        session,
+        "function_select",
+        choices = c("Himmelblau", "Rosenbrock", "Rastrigin", "Eggholder")
+      )
   })
   
   output$plot_surface <- renderPlotly({
-    
     z <- generate_gallery_plot(input)
     
-    fig1 <- plot_ly(z = ~z, colors = input$color_select, 
-                   alpha = input$alpha_select, showscale=FALSE) %>% add_surface()
-
+    fig1 <- plot_ly(
+      z = ~ z,
+      colors = input$color_select,
+      alpha = input$alpha_select,
+      showscale = FALSE
+    ) %>% add_surface()
+    
   })
   
   output$plot_contour <- renderPlotly({
-    
     z <- generate_gallery_plot(input)
-
-    fig2 <- plot_ly(z = ~z, type = "contour", colors = input$color_select, 
-                    alpha = input$alpha_select, showscale=FALSE)
+    
+    fig2 <-
+      plot_ly(
+        z = ~ z,
+        type = "contour",
+        colors = input$color_select,
+        alpha = input$alpha_select,
+        showscale = FALSE
+      )
     
   })
   
