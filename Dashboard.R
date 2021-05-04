@@ -10,15 +10,25 @@ source("PSO.R")
 #UI
 
 ui <- fluidPage(
-  titlePanel("Particle Swarm Optimization"),
+
+  
+  titlePanel(
+    fluidRow(
+      column(9, br(), "Particle Swarm Optimization"), 
+      column(3, img(height = 110, src = "dhbw_logo.png"))
+    )
+    
+    ),
   
   tabsetPanel(
     tabPanel(
       "Introduction",
       icon = icon("info"),
+      setBackgroundImage(src = "swarm.jpg", shinydashboard = TRUE),
+      
       column(1),
       
-      column(4,
+      column(3,
              br(), br(),
              uiOutput("process_step_n")),
       
@@ -28,7 +38,7 @@ ui <- fluidPage(
         actionButton("process_b", "Back"),
         actionButton("process_f", "Forward")
       ),
-      column(3)
+      column(4)
       
     ),
     
@@ -116,6 +126,7 @@ ui <- fluidPage(
           ))
       )
     )
+    
   )
 )
 
@@ -123,6 +134,8 @@ ui <- fluidPage(
 #Server
 
 server <- function(input, output, session) {
+
+  
   #=================== Introduction ===================================
   step_counter <- reactiveValues(process_step = 1)
   
