@@ -26,8 +26,7 @@ ui <- fluidPage(
     tabPanel(
       "Introduction",
       icon = icon("info"),
-      setBackgroundImage(src = "swarm.jpg", shinydashboard = TRUE),
-      
+
       column(1),
       
       column(3,
@@ -96,6 +95,7 @@ ui <- fluidPage(
     h3("Interactive Graph"),
     sidebarLayout(
       sidebarPanel(
+        
         numericInput(
           inputId = "inertia",
           label = "Inerita",
@@ -137,16 +137,15 @@ ui <- fluidPage(
           step = 1,
           animate = animationOptions(interval = 100)
         )
-        
       ),
+      
       mainPanel(# h4(textOutput("render_optim")),
         plotOutput(
           "render_particles", width = 500, height = 500
         ))
-    )
-    )
-  )
-)
+    ))
+))
+
 
 #================
 #Server
@@ -198,8 +197,8 @@ server <- function(input, output, session) {
     } else if (step_counter$process_step == 7) {
       img(src = "step_6.png", height = 400)
       
-    }
-  
+    }}
+  )
     max_iterations <- 100
   
   #initalize pso
