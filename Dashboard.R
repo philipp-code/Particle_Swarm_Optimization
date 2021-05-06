@@ -23,6 +23,9 @@ ui <- fluidPage(
     ),
   
   tabsetPanel(
+    
+    #=================== Introduction ===================================
+    
     tabPanel(
       "Introduction",
       icon = icon("info"),
@@ -43,6 +46,7 @@ ui <- fluidPage(
       
     ),
     
+    #================= Gallery functionality ============================
 
     tabPanel(
       "Gallery",
@@ -88,6 +92,9 @@ ui <- fluidPage(
         ))
       )
     ),
+    
+    
+    #================= "VISUALIZATION OF ALGORITHM" functionality ============================  
     
     tabPanel(
     "Visualization of Algorithm",
@@ -143,7 +150,12 @@ ui <- fluidPage(
         plotOutput(
           "render_particles", width = 500, height = 500
         ))
-    ))
+    )),
+    
+    tabPanel(
+      "Comparison",
+      icon = icon("chart-bar")
+    )
 ))
 
 
