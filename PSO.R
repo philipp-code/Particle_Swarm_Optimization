@@ -101,7 +101,7 @@ pso = setRefClass("pso",
                       
                       #normalize error length
                       if(norm_arrow){
-                        N <- sqrt(U**2+V**2)
+                        N <<- sqrt(U**2+V**2)
                         U = U/N
                         V = V/N 
                       }

@@ -199,7 +199,10 @@ server <- function(input, output, session) {
       
     }}
   )
-    max_iterations <- 100
+  
+  #================= "VISUALIZATION OF ALGORITHM" functionality ============================  
+    
+  max_iterations <- 100
   
   #initalize pso
   pso  = reactive({
@@ -236,7 +239,7 @@ server <- function(input, output, session) {
       #moves particles, updates bests, updates coefficients 
       pso()$next_i()
     } else {
-      pso() <- pso_output()
+      pso() <<- pso_output()
     }
     # plot(pso$particles[ ,1], pso$particles[ ,2], xlim=c(-5, 5), ylim=c(-5, 5))
     pso()$plot_state()
