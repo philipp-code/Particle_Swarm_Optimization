@@ -319,13 +319,11 @@ server <- function(input, output, session) {
   })
   
   output$render_particles = renderPlot({
-    if (is.null(pso)) {
-      pso <<- pso_output()
-    } else if (input$iter == pso$iter + 1) {
-      #moves particles, updates bests, updates coefficients
-      pso$next_i()
+    if(is.null(pso) || (input$iter != pso$iter + 1)){
+      pso <<- pso_output() 
     } else {
-      pso <<- pso_output()
+      #moves particles, updates bests, updates coefficients 
+      pso$next_i()
     }
     # plot(pso$particles[ ,1], pso$particles[ ,2], xlim=c(-5, 5), ylim=c(-5, 5))
     pso$plot_state()
