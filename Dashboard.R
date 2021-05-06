@@ -3,6 +3,8 @@
 ####
 library(shiny)
 library(DT)
+library(shinyWidgets)
+library(shinydashboard)
 #UI
 
 library(plotly)
@@ -12,97 +14,92 @@ source("PSO.R")
 #UI
 
 ui <- fluidPage(
-
+  useShinydashboard(),
   
-  titlePanel(
-    fluidRow(
-      column(9, br(), "Particle Swarm Optimization"), 
-      column(3, img(height = 110, src = "dhbw_logo.png"))
-    )
-    
-    ),
+  titlePanel(fluidRow(
+  column(9, br(), "Particle Swarm Optimization"),
+  column(3, img(height = 110, src = "dhbw_logo.png"))
+)),
+
+tabsetPanel(
+  #=================== Introduction ===================================
   
-  tabsetPanel(
+  tabPanel(
+    "Introduction",
+    icon = icon("info"),
     
-    #=================== Introduction ===================================
+    column(1),
     
-    tabPanel(
-      "Introduction",
-      icon = icon("info"),
-
-      column(1),
-      
-      column(3,
-             br(), br(),
-             uiOutput("process_step_n")),
-      
-      column(
-        3,
-        br(),
-        actionButton("process_b", "Back"),
-        actionButton("process_f", "Forward")
-      ),
-      column(4)
-      
+    column(3,
+           br(), br(),
+           uiOutput("process_step_n")),
+    
+    column(
+      3,
+      br(),
+      actionButton("process_b", "Back"),
+      actionButton("process_f", "Forward")
     ),
+    column(4)
     
-    #================= Gallery functionality ============================
-
-    tabPanel(
-      "Gallery",
-      icon = icon("photo"),
-      
-      h3("Function Gallery"),
-      
-      sidebarLayout(
-        sidebarPanel(
-          selectInput(
-            inputId = "function_type_select",
-            label = "Type of Function:",
-            choices = c("Continuous", "Non-Continuous")
-          ),
-          
-          selectInput(
-            inputId = "function_select",
-            label = "Function:",
-            choices = character(0)
-            
-          ),
-          selectInput(
-            inputId = "color_select",
-            label = "Color:",
-            choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
-          ),
-          
-          sliderInput(
-            inputId = "alpha_select",
-            label = "Opacity:",
-            value = 0.9,
-            min = 0.0,
-            max = 1.0
-          )
-          
+  ),
+  
+  #================= Gallery functionality ============================
+  
+  tabPanel(
+    "Gallery",
+    icon = icon("photo"),
+    
+    h3("Function Gallery"),
+    
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(
+          inputId = "function_type_select",
+          label = "Type of Function:",
+          choices = c("Continuous", "Non-Continuous")
         ),
         
-        mainPanel(fluidRow(
-          column(6,
-                 plotlyOutput("plot_surface")),
-          column(6,
-                 plotlyOutput("plot_contour"))
-        ))
-      )
-    ),
-    
-    
-    #================= "VISUALIZATION OF ALGORITHM" functionality ============================  
-    
-    tabPanel(
+        selectInput(
+          inputId = "function_select",
+          label = "Function:",
+          choices = character(0)
+          
+        ),
+        selectInput(
+          inputId = "color_select",
+          label = "Color:",
+          choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
+        ),
+        
+        sliderInput(
+          inputId = "alpha_select",
+          label = "Opacity:",
+          value = 0.9,
+          min = 0.0,
+          max = 1.0
+        )
+        
+      ),
+      
+      mainPanel(fluidRow(
+        column(6,
+               plotlyOutput("plot_surface")),
+        column(6,
+               plotlyOutput("plot_contour"))
+      ))
+    )
+  ),
+  
+  
+  #================= "VISUALIZATION OF ALGORITHM" functionality ============================
+  
+  tabPanel(
     "Visualization of Algorithm",
     icon = icon("glyphicon glyphicon-eye-open", lib = "glyphicon"),
     h3("Interactive Graph"),
     sidebarLayout(
       sidebarPanel(
-        
         numericInput(
           inputId = "inertia",
           label = "Inerita",
@@ -150,20 +147,93 @@ ui <- fluidPage(
         plotOutput(
           "render_particles", width = 500, height = 500
         ))
-    )),
-    
-    tabPanel(
-      "Comparison",
-      icon = icon("chart-bar")
     )
+  ),
+  
+  #================= Comparison ============================
+  
+  tabPanel("Comparison",
+           icon = icon("chart-bar"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(
+        inputId = "comparison_inertia",
+        label = "Inerita",
+        value = 1,
+        min = 0,
+        max = 1,
+        step = 0.1
+      ),
+      selectInput(
+        inputId = "comparison_function",
+        label = "Base Function",
+        choices = list("f1" = "f1", "f2" = "f2")
+      ),
+      numericInput(
+        inputId = "comparison_particles",
+        label = "Number of Particles",
+        value = 100,
+        min = 1,
+        max = 1000
+      ),
+      selectInput(
+        inputId = "comparison_auto_coef",
+        label = "Auto-Coefficient",
+        choices = list("On" = TRUE, "Off" = FALSE),
+        selected = TRUE
+      ),
+      selectInput(
+        inputId = "comparison_norm_arrows",
+        label = "Normalize Arrows",
+        choices = list("On" = TRUE, "Off" = FALSE),
+        selected = FALSE
+      )
+      
+    ),
+    mainPanel(
+      br(),
+        fluidRow(
+          box(
+            h3("PSO"),
+            background = "light-blue",
+            height = 190
+            
+          ),
+          box(
+            h2("ABC"),
+            background = "black",
+            height = 190
+            
+          )
+        ),
+      
+      fluidRow(
+        box(
+          "GA",
+          background = "orange",
+          height = 190
+          
+        ),
+        box(
+          "GSA",
+          background = "yellow",
+          height = 190
+          
+        )
+      )
+      
+      
+      )
+      
+      )
+  )
 ))
 
-
-#================
-#Server
+#=========================================================
+#======================= Server ==========================
+#=========================================================
 
 server <- function(input, output, session) {
-  
   #=================== Introduction ===================================
   step_counter <- reactiveValues(process_step = 1)
   
@@ -209,27 +279,27 @@ server <- function(input, output, session) {
     } else if (step_counter$process_step == 7) {
       img(src = "step_6.png", height = 400)
       
-    }}
-  )
+    }
+  })
   
-  #================= "VISUALIZATION OF ALGORITHM" functionality ============================  
-    
+  #================= "VISUALIZATION OF ALGORITHM" functionality ============================
+  
   max_iterations <- 100
   #initalize pso
   pso = NULL
   
-#    reactive({
-#    #returns message if test fails
-#    validate(need(!is.null(input$inertia), "inertia is null"))
-#    #initial plot (iter = 0)
-#   init_pso(
-#      max_iterations,
-#      input$n_particles,
-#      as.logical(input$auto_coef),
-#      input$inertia,
-#      as.logical(input$norm_arrows)
-#    )
-#  })
+  #    reactive({
+  #    #returns message if test fails
+  #    validate(need(!is.null(input$inertia), "inertia is null"))
+  #    #initial plot (iter = 0)
+  #   init_pso(
+  #      max_iterations,
+  #      input$n_particles,
+  #      as.logical(input$auto_coef),
+  #      input$inertia,
+  #      as.logical(input$norm_arrows)
+  #    )
+  #  })
   
   
   #plot current pso state
@@ -249,10 +319,10 @@ server <- function(input, output, session) {
   })
   
   output$render_particles = renderPlot({
-    if(is.null(pso)){
-      pso <<- pso_output() 
+    if (is.null(pso)) {
+      pso <<- pso_output()
     } else if (input$iter == pso$iter + 1) {
-      #moves particles, updates bests, updates coefficients 
+      #moves particles, updates bests, updates coefficients
       pso$next_i()
     } else {
       pso <<- pso_output()
@@ -312,6 +382,7 @@ server <- function(input, output, session) {
       )
     
   })
+  
   
 }
 
