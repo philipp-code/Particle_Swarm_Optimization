@@ -101,9 +101,9 @@ pso = setRefClass("pso",
                       
                       #normalize error length
                       if(norm_arrow){
-                        N <<- sqrt(U**2+V**2)
-                        U = U/N
-                        V = V/N 
+                        nor = sqrt(U**2+V**2)
+                        U = U/nor
+                        V = V/nor 
                       }
 
                       suppressWarnings(arrows(particles[ ,1], particles[ ,2], 
