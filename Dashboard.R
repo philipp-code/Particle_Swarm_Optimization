@@ -15,6 +15,7 @@ source("PSO.R")
 
 ui <- fluidPage(
   theme = shinytheme("united"),
+  responsive=TRUE,
   useShinydashboard(),
   
   titlePanel(fluidRow(
@@ -98,7 +99,7 @@ tabsetPanel(
   tabPanel(
     "Visualization of Algorithm",
     icon = icon("glyphicon glyphicon-eye-open", lib = "glyphicon"),
-    h3("Interactive Graph"),
+    br(),
     sidebarLayout(
       sidebarPanel(
         numericInput(
@@ -136,6 +137,7 @@ tabsetPanel(
         sliderInput(
           inputId = "iter",
           label = "Iterations",
+          
           value = 1,
           min = 1,
           max = 101,
@@ -144,10 +146,13 @@ tabsetPanel(
         )
       ),
       
-      mainPanel(# h4(textOutput("render_optim")),
-        plotOutput(
-          "render_particles", width = 500, height = 500
-        ))
+      mainPanel(
+        div(style="height: 700px", align="center",
+          plotOutput(
+            "render_particles", height="auto", width = "70%"
+          )
+        )
+        )
     )
   ),
   
@@ -343,8 +348,10 @@ server <- function(input, output, session) {
       pso$next_i()
     }
     # plot(pso$particles[ ,1], pso$particles[ ,2], xlim=c(-5, 5), ylim=c(-5, 5))
-    pso$plot_state()
-  })
+    pso$plot_state()  },
+    height = function() {
+      session$clientData$output_render_particles_width}
+  )
   
   #================= Gallery functionality ============================
   

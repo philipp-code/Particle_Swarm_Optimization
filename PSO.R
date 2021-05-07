@@ -2,12 +2,6 @@ sample_function = function(x, y) {
   x**2 + (y + 1) ** 2 - 5 * cos(1.5 * x + 1.5) - 5 * cos(2 * y - 1.5)
 }
 
-#rosenbrock = function(x, y) (1-x)**2 + 100* ((y-x**2))**2
-# 
-# rastrigin = function(x, y) (x**2 - 10 * cos(2 * pi * x)) + (y**2 - 10 * cos(2 * pi * y)) + 20
-# 
-# eggholder = function(x, y) -(y+47) * sin(sqrt(abs(y+x/2+47))) - x * sin(sqrt(abs(x-(y+47))))
-
 pso = setRefClass("pso", 
                   fields = list(
                     particles = "matrix",
