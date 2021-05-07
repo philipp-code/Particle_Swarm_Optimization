@@ -96,6 +96,7 @@ ui <- fluidPage(
     #================= "VISUALIZATION OF ALGORITHM" functionality ============================
     
     tabPanel(
+      
       "Visualization of Algorithm",
       icon = icon("glyphicon glyphicon-eye-open", lib = "glyphicon"),
       br(),
