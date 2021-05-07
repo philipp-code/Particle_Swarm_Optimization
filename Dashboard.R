@@ -4,7 +4,9 @@
 library(shiny)
 library(DT)
 library(shinyWidgets)
-library(shinydashboard)
+library(shinydashboard) # use for box
+library(shinycssloaders) # use for loading icon
+library(metaheuristicOpt) # use for optim functions
 #UI
 
 library(plotly)
@@ -79,14 +81,13 @@ tabsetPanel(
           min = 0.0,
           max = 1.0
         )
-        
       ),
       
       mainPanel(fluidRow(
         column(6,
-               plotlyOutput("plot_surface")),
+               plotlyOutput("plot_surface") %>% withSpinner(color="lightblue")),
         column(6,
-               plotlyOutput("plot_contour"))
+               plotlyOutput("plot_contour") %>% withSpinner(color="lightblue"))
       ))
     )
   ),
@@ -139,7 +140,7 @@ tabsetPanel(
           min = 1,
           max = 101,
           step = 1,
-          animate = animationOptions(interval = 100)
+          animate = animationOptions(interval = 500)
         )
       ),
       
@@ -160,7 +161,7 @@ tabsetPanel(
       selectInput(
         inputId = "c_function",
         label = "Function:",
-        choices = c("Function 1", "Function 2"),
+        choices = c("Himmelblau", "Rosenbrock", "Rastrigin", "Eggholder"),
         selected = FALSE
       ),
       
@@ -187,6 +188,7 @@ tabsetPanel(
         min = 2,
         max = 100
       )
+      #submitButton("Minimize", icon("play"), width = '100%')
       
     ),
     mainPanel(
@@ -196,7 +198,7 @@ tabsetPanel(
             h4("Particle Swarm Optimization"),
             background = "light-blue",
             height = 100,
-            "Testtest"
+            textOutput("pso_result")
             
           ),
           box(
@@ -249,6 +251,7 @@ tabsetPanel(
 #=========================================================
 
 server <- function(input, output, session) {
+  
   #=================== Introduction ===================================
   step_counter <- reactiveValues(process_step = 1)
   
@@ -371,7 +374,8 @@ server <- function(input, output, session) {
   })
   
   output$plot_surface <- renderPlotly({
-    z <- generate_gallery_plot(input)
+    req(input$function_select)
+    z <- generate_gallery_plot(input$function_select)
     
     fig1 <- plot_ly(
       z = ~ z,
@@ -383,7 +387,8 @@ server <- function(input, output, session) {
   })
    
   output$plot_contour <- renderPlotly({
-    z <- generate_gallery_plot(input)
+    req(input$function_select)
+    z <- generate_gallery_plot(input$function_select)
     
     fig2 <-
       plot_ly(
@@ -396,6 +401,26 @@ server <- function(input, output, session) {
     
   })
   
+  #================= Comparison functionality ============================
+  
+  fun <- reactive({
+     generate_comparison_function(input$c_function)[[1]]
+    })
+  
+  rangeVar <- reactive({
+    out_lims<- c(generate_comparison_function(input$c_function)[[2]], generate_comparison_function(input$c_function)[[3]])
+    matrix(out_lims, nrow=2)
+    })
+  
+  output$pso_result <- renderText({
+
+    r_fun <- fun()
+    
+    resultPSO <- PSO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                     maxIter=input$c_iterations, rangeVar = rangeVar())
+    
+    r_fun(resultPSO)
+  })
   
 }
 
