@@ -8,7 +8,7 @@ library(shinydashboard) # use for box
 library(shinycssloaders) # use for loading icon
 library(metaheuristicOpt) # use for optim functions
 #UI
-
+library(shinythemes)
 library(plotly)
 source("function_gallery_plots.R")
 source("PSO.R")
@@ -16,144 +16,156 @@ source("PSO.R")
 #UI
 
 ui <- fluidPage(
+  theme = shinytheme("united"),
   useShinydashboard(),
   
   titlePanel(fluidRow(
-  column(9, br(), "Particle Swarm Optimization"),
-  column(3, img(height = 110, src = "dhbw_logo.png"))
-)),
-
-tabsetPanel(
-  #=================== Introduction ===================================
+    column(9, br(), "Particle Swarm Optimization"),
+    column(3, img(height = 110, src = "dhbw_logo.png"))
+  )),
   
-  tabPanel(
-    "Introduction",
-    icon = icon("info"),
+  tabsetPanel(
+    #=================== Introduction ===================================
     
-    column(1),
-    
-    column(3,
-           br(), br(),
-           uiOutput("process_step_n")),
-    
-    column(
-      3,
-      br(),
-      actionButton("process_b", "Back"),
-      actionButton("process_f", "Forward")
+    tabPanel(
+      "Introduction",
+      icon = icon("info"),
+      
+      column(1),
+      
+      column(3,
+             br(), br(),
+             uiOutput("process_step_n")),
+      
+      column(
+        3,
+        br(),
+        actionButton("process_b", "Back"),
+        actionButton("process_f", "Forward")
+      ),
+      column(4)
+      
     ),
-    column(4)
     
-  ),
-  
-  #================= Gallery functionality ============================
-  
-  tabPanel(
-    "Gallery",
-    icon = icon("photo"),
+    #================= Gallery functionality ============================
     
-    h3("Function Gallery"),
-    
-    sidebarLayout(
-      sidebarPanel(
-        selectInput(
-          inputId = "function_type_select",
-          label = "Type of Function:",
-          choices = c("Continuous", "Non-Continuous")
-        ),
-        
-        selectInput(
-          inputId = "function_select",
-          label = "Function:",
-          choices = character(0)
+    tabPanel(
+      "Gallery",
+      icon = icon("photo"),
+      
+      h3("Function Gallery"),
+      
+      sidebarLayout(
+        sidebarPanel(
+          selectInput(
+            inputId = "function_type_select",
+            label = "Type of Function:",
+            choices = c("Continuous", "Non-Continuous")
+          ),
+          
+          selectInput(
+            inputId = "function_select",
+            label = "Function:",
+            choices = character(0)
+            
+          ),
+          selectInput(
+            inputId = "color_select",
+            label = "Color:",
+            choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
+          ),
+          
+          sliderInput(
+            inputId = "alpha_select",
+            label = "Opacity:",
+            value = 0.9,
+            min = 0.0,
+            max = 1.0
+          )
           
         ),
-        selectInput(
-          inputId = "color_select",
-          label = "Color:",
-          choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
+        
+        mainPanel(fluidRow(
+          column(6,
+                 plotlyOutput("plot_surface")),
+          column(6,
+                 plotlyOutput("plot_contour"))
+        ))
+      )
+    ),
+    
+    
+    #================= "VISUALIZATION OF ALGORITHM" functionality ============================
+    
+    tabPanel(
+      
+      "Visualization of Algorithm",
+      icon = icon("glyphicon glyphicon-eye-open", lib = "glyphicon"),
+      br(),
+        fluidRow(
+            
+      sidebarLayout(
+        sidebarPanel(
+          numericInput(
+            inputId = "inertia",
+            label = "Inerita",
+            value = 1,
+            min = 0,
+            max = 1,
+            step = 0.1
+          ),
+          selectInput(
+            inputId = "function_selected",
+            label = "Base Function",
+            choices = list(
+              "Himmelblau" = "Himmelblau",
+              "Rosenbrock" = "Rosenbrock",
+              "Rastrigin" = "Rastrigin",
+              "Eggholder" = "Eggholder"
+            )
+          ),
+          numericInput(
+            inputId = "n_particles",
+            label = "Number of Particles",
+            value = 100,
+            min = 1,
+            max = 1000
+          ),
+          selectInput(
+            inputId = "auto_coef",
+            label = "Auto-Coefficient",
+            choices = list("On" = TRUE, "Off" = FALSE),
+            selected = TRUE
+          ),
+          selectInput(
+            inputId = "norm_arrows",
+            label = "Normalize Arrows",
+            choices = list("On" = TRUE, "Off" = FALSE),
+            selected = FALSE
+          ),
+          sliderInput(
+            inputId = "iter",
+            label = "Iterations",
+            
+            value = 1,
+            min = 1,
+            max = 101,
+            step = 1,
+            animate = animationOptions(interval = 100)
+          )
         ),
         
-        sliderInput(
-          inputId = "alpha_select",
-          label = "Opacity:",
-          value = 0.9,
-          min = 0.0,
-          max = 1.0
-        )
-      ),
-      
-      mainPanel(fluidRow(
-        column(6,
-               plotlyOutput("plot_surface") %>% withSpinner(color="lightblue")),
-        column(6,
-               plotlyOutput("plot_contour") %>% withSpinner(color="lightblue"))
-      ))
-    )
-  ),
-  
-  
-  #================= "VISUALIZATION OF ALGORITHM" functionality ============================
-  
-  tabPanel(
-    "Visualization of Algorithm",
-    icon = icon("glyphicon glyphicon-eye-open", lib = "glyphicon"),
-    h3("Interactive Graph"),
-    sidebarLayout(
-      sidebarPanel(
-        numericInput(
-          inputId = "inertia",
-          label = "Inerita",
-          value = 1,
-          min = 0,
-          max = 1,
-          step = 0.1
-        ),
-        selectInput(
-          inputId = "function_selected",
-          label = "Base Function",
-          choices = list("f1" = "f1", "f2" = "f2")
-        ),
-        numericInput(
-          inputId = "n_particles",
-          label = "Number of Particles",
-          value = 100,
-          min = 1,
-          max = 1000
-        ),
-        selectInput(
-          inputId = "auto_coef",
-          label = "Auto-Coefficient",
-          choices = list("On" = TRUE, "Off" = FALSE),
-          selected = TRUE
-        ),
-        selectInput(
-          inputId = "norm_arrows",
-          label = "Normalize Arrows",
-          choices = list("On" = TRUE, "Off" = FALSE),
-          selected = FALSE
-        ),
-        sliderInput(
-          inputId = "iter",
-          label = "Iterations",
-          value = 1,
-          min = 1,
-          max = 101,
-          step = 1,
-          animate = animationOptions(interval = 500)
-        )
-      ),
-      
-      mainPanel(# h4(textOutput("render_optim")),
-        plotOutput(
-          "render_particles", width = 500, height = 500
-        ))
-    )
-  ),
-  
-  #================= Comparison ============================
-  
-  tabPanel("Comparison",
+        mainPanel(fluidRow(column(
+          12,
+          align = "center",
+          plotOutput("render_particles", height = "auto", width = "70%")
+        )))
+      )
+    ),
+    
+    #================= Comparison ============================
+    
+      tabPanel("Comparison",
            icon = icon("chart-bar"),
   sidebarLayout(
     sidebarPanel(
@@ -189,62 +201,63 @@ tabsetPanel(
         max = 100
       )
       #submitButton("Minimize", icon("play"), width = '100%')
-      
-    ),
-    mainPanel(
-      br(),
-        fluidRow(
-          box(
+          
+        ),
+        mainPanel(
+          br(),
+          fluidRow(
+            box(
             h4("Particle Swarm Optimization"),
             background = "light-blue",
             height = 100,
             textOutput("pso_result")
-            
+              
+            ),
+            box(
+              h4("Artificial Bee Colony"),
+              background = "black",
+              height = 100
+              
+            )
           ),
-          box(
-            h4("Artificial Bee Colony"),
-            background = "black",
-            height = 100
-            
+          
+          fluidRow(
+            box(
+              h4("Genetic Algorithm"),
+              background = "orange",
+              height = 100
+              
+            ),
+            box(
+              h4("Gravitational Search Algorithm"),
+              background = "yellow",
+              height = 100
+              
+            )
+          ),
+          
+          fluidRow(
+            box(
+              h4("Grey Wolf Algorithm"),
+              background = "orange",
+              height = 100
+              
+            ),
+            box(
+              h4("Firefly Algorithm"),
+              background = "yellow",
+              height = 100
+              
+            )
           )
-        ),
-      
-      fluidRow(
-        box(
-          h4("Genetic Algorithm"),
-          background = "orange",
-          height = 100
           
-        ),
-        box(
-          h4("Gravitational Search Algorithm"),
-          background = "yellow",
-          height = 100
           
         )
-      ),
-      
-      fluidRow(
-        box(
-          h4("Grey Wolf Algorithm"),
-          background = "orange",
-          height = 100
-          
-        ),
-        box(
-          h4("Firefly Algorithm"),
-          background = "yellow",
-          height = 100
-          
-        )
+        
       )
-      
-      
-      )
-      
-      )
+    )
   )
-))
+)
 
 #=========================================================
 #======================= Server ==========================
@@ -322,13 +335,17 @@ server <- function(input, output, session) {
   
   #plot current pso state
   pso_output = reactive({
+    validate(need(input$inertia == 1, "inertia is null"))
+    
+    
     run_pso(
       input$iter,
       max_iterations,
       input$n_particles,
       as.logical(input$auto_coef),
       input$inertia ,
-      as.logical(input$norm_arrows)
+      as.logical(input$norm_arrows),
+      input$function_selected
     )
   })
   
@@ -337,14 +354,17 @@ server <- function(input, output, session) {
   })
   
   output$render_particles = renderPlot({
-    if(is.null(pso) || (input$iter != pso$iter + 1)){
-      pso <<- pso_output() 
+    if (is.null(pso) || (input$iter != pso$iter + 1)) {
+      pso <<- pso_output()
     } else {
-      #moves particles, updates bests, updates coefficients 
+      #moves particles, updates bests, updates coefficients
       pso$next_i()
     }
     # plot(pso$particles[ ,1], pso$particles[ ,2], xlim=c(-5, 5), ylim=c(-5, 5))
     pso$plot_state()
+  },
+  height = function() {
+    session$clientData$output_render_particles_width
   })
   
   #================= Gallery functionality ============================
@@ -385,7 +405,7 @@ server <- function(input, output, session) {
     ) %>% add_surface()
     
   })
-   
+  
   output$plot_contour <- renderPlotly({
     req(input$function_select)
     z <- generate_gallery_plot(input$function_select)
