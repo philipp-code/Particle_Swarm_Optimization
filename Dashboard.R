@@ -87,9 +87,9 @@ ui <- fluidPage(
         
         mainPanel(fluidRow(
           column(6,
-                 plotlyOutput("plot_surface")),
+                 plotlyOutput("plot_surface") %>% withSpinner(color="lightblue")),
           column(6,
-                 plotlyOutput("plot_contour"))
+                 plotlyOutput("plot_contour") %>% withSpinner(color="lightblue"))
         ))
       )
     ),
@@ -161,12 +161,13 @@ ui <- fluidPage(
           plotOutput("render_particles", height = "auto", width = "70%")
         )))
       )
+        )
     ),
     
     #================= Comparison ============================
     
       tabPanel("Comparison",
-           icon = icon("chart-bar"),
+      icon = icon("chart-bar"),
   sidebarLayout(
     sidebarPanel(
 
