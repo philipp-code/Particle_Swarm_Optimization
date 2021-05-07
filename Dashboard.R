@@ -111,7 +111,7 @@ tabsetPanel(
         selectInput(
           inputId = "function_selected",
           label = "Base Function",
-          choices = list("f1" = "f1", "f2" = "f2")
+          choices = list("Himmelblau" = "Himmelblau", "Rosenbrock" = "Rosenbrock", "Rastrigin"="Rastrigin", "Eggholder"="Eggholder" )
         ),
         numericInput(
           inputId = "n_particles",
@@ -325,7 +325,8 @@ server <- function(input, output, session) {
       input$n_particles,
       as.logical(input$auto_coef),
       input$inertia ,
-      as.logical(input$norm_arrows)
+      as.logical(input$norm_arrows),
+      input$function_selected
     )
   })
   

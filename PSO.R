@@ -2,11 +2,11 @@ sample_function = function(x, y) {
   x**2 + (y + 1) ** 2 - 5 * cos(1.5 * x + 1.5) - 5 * cos(2 * y - 1.5)
 }
 
-rosenbrock = function(x, y) (1-x)**2 + 100* ((y-x**2))**2
-
-rastrigin = function(x, y) (x**2 - 10 * cos(2 * pi * x)) + (y**2 - 10 * cos(2 * pi * y)) + 20
-
-eggholder = function(x, y) -(y+47) * sin(sqrt(abs(y+x/2+47))) - x * sin(sqrt(abs(x-(y+47))))
+#rosenbrock = function(x, y) (1-x)**2 + 100* ((y-x**2))**2
+# 
+# rastrigin = function(x, y) (x**2 - 10 * cos(2 * pi * x)) + (y**2 - 10 * cos(2 * pi * y)) + 20
+# 
+# eggholder = function(x, y) -(y+47) * sin(sqrt(abs(y+x/2+47))) - x * sin(sqrt(abs(x-(y+47))))
 
 pso = setRefClass("pso", 
                   fields = list(
@@ -139,8 +139,8 @@ pso = setRefClass("pso",
 
 
 
-run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_inertia, input_arrows){
-  pso_1 = init_pso(max_iter, n_particles, input_auto_coef, input_inertia, input_arrows)
+run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_inertia, input_arrows, input_function_selected){
+  pso_1 = init_pso(max_iter, n_particles, input_auto_coef, input_inertia, input_arrows, input_function_selected)
   
   while (pso_1$iter < input_iter) {
     pso_1$next_i()
@@ -149,11 +149,32 @@ run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_ine
   pso_1
 }
 
-init_pso = function(max_iter, input_n_particles, input_auto_coef, input_inertia, input_arrows){
+init_pso = function(max_iter, input_n_particles, input_auto_coef, input_inertia, input_arrows, input_function_selected){
   set.seed(31)
+  def_area = c(-6, 6)
+  if (input_function_selected == "Himmelblau") {
+    fitness <- function(x, y) (x*x+y-11)**2 + (x+y*y-7)**2 # himmelblau
+    def_area <- c(-60, 60)
+    
+    
+  } else if (input_function_selected == "Rosenbrock") {
+    
+    fitness  <- function(x, y){ (1-x)**2 + 100* ((y-x**2))**2} # rosenbrock
+    def_area = c(-25, 25)
+    
+  } else if (input_function_selected == "Rastrigin") {
+    
+    fitness <- function(x, y) (x**2 - 10 * cos(2 * pi * x)) + (y**2 - 10 * cos(2 * pi * y)) + 20 # rastrigin
+    def_area = c(-5.12, 5.12)
+    
+    
+  } else if (input_function_selected == "Eggholder") {
+    fitness <- function(x, y) -(y+47) * sin(sqrt(abs(y+x/2+47))) - x * sin(sqrt(abs(x-(y+47)))) # eggholder
+    def_area = c(-512, 512)
+  }
   
-  fitness = eggholder
-  def_area = c(-512, 512)
+#  fitness = rosenbrock
+  
   
   n_particles = input_n_particles
   auto_coef <-input_auto_coef
