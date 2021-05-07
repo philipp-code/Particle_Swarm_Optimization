@@ -296,7 +296,7 @@ server <- function(input, output, session) {
     ) %>% add_surface()
     
   })
-  
+   
   output$plot_contour <- renderPlotly({
     z <- generate_gallery_plot(input)
     
