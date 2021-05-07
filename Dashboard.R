@@ -6,7 +6,7 @@ library(DT)
 library(shinyWidgets)
 library(shinydashboard)
 #UI
-
+library(shinythemes)
 library(plotly)
 source("function_gallery_plots.R")
 source("PSO.R")
@@ -14,6 +14,7 @@ source("PSO.R")
 #UI
 
 ui <- fluidPage(
+  theme = shinytheme("united"),
   useShinydashboard(),
   
   titlePanel(fluidRow(
