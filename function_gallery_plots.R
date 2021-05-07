@@ -77,3 +77,18 @@ generate_comparison_function <- function(function_select){
   return(c(fun, rangeVar))
 }
 
+
+
+colorpicker <- function(num, resulthash) {
+  val <- values(resulthash)
+  
+  if (num == min(val)) {
+    return("green")
+  } 
+  else if (num == max(val)){
+    return("red")
+  }
+  else {
+    return("black")
+  }
+}

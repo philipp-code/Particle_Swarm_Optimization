@@ -51,10 +51,9 @@ ui <- fluidPage(
     #================= Gallery functionality ============================
     
     tabPanel(
-      "Gallery",
+      "Function Gallery",
       icon = icon("photo"),
-      
-      h3("Function Gallery"),
+      br(),
       
       sidebarLayout(
         sidebarPanel(
@@ -73,7 +72,8 @@ ui <- fluidPage(
           selectInput(
             inputId = "color_select",
             label = "Color:",
-            choices = c("YlOrRd", "YlGnBu", "viridis", "RdYlGn", "Spectral")
+            choices = c("Yellow-Red" = "YlOrRd", "Yellow-Blue" = "YlGnBu", 
+                        "Darkblue-Yellow" = "viridis", "Red-Yellow-Green" = "RdYlGn", "Red-Yellow-Blue" = "Spectral")
           ),
           
           sliderInput(
@@ -167,8 +167,9 @@ ui <- fluidPage(
     
     #================= Comparison ============================
     
-      tabPanel("Comparison",
+      tabPanel("Optimization Comparison",
       icon = icon("chart-bar"),
+      br(),
   sidebarLayout(
     sidebarPanel(
 
@@ -202,25 +203,25 @@ ui <- fluidPage(
         min = 2,
         max = 100
       )
-      #submitButton("Minimize", icon("play"), width = '100%')
+      #actionButton("play_minimize",label = "Minimize", icon("play"), width = '100%')
           
         ),
         mainPanel(
           br(),
           fluidRow(
-            valueBoxOutput("pso_box", width = 6),
-            valueBoxOutput("abc_box", width = 6)
+            valueBoxOutput("pso_box", width = 6) %>% withSpinner(color="lightblue"),
+            valueBoxOutput("abc_box", width = 6) %>% withSpinner(color="lightblue")
             
           ),
           
           fluidRow(
-            valueBoxOutput("ga_box", width = 6),
-            valueBoxOutput("gbs_box", width = 6)
+            valueBoxOutput("ga_box", width = 6) %>% withSpinner(color="lightblue"),
+            valueBoxOutput("gbs_box", width = 6) %>% withSpinner(color="lightblue")
           ),
           
           fluidRow(
-            valueBoxOutput("gwo_box", width = 6),
-            valueBoxOutput("ffa_box", width = 6)
+            valueBoxOutput("gwo_box", width = 6) %>% withSpinner(color="lightblue"),
+            valueBoxOutput("ffa_box", width = 6) %>% withSpinner(color="lightblue")
           )
           
           
@@ -406,6 +407,7 @@ server <- function(input, output, session) {
   
 
   opti_results <- reactive({
+    
     results <- hash()
     r_fun <- fun()
     
@@ -433,45 +435,50 @@ server <- function(input, output, session) {
     results
   })
   
-  output$pso_box <- renderValueBox(
+  output$pso_box <- renderValueBox({
+    
     valueBox(
-      h4("Particle Swarm Optimization"),
-      color = "light-blue",
+      
+        h4("Particle Swarm Optimization"),
+      color = colorpicker(opti_results()[["PSO"]],opti_results()),
       h2("MIN: ", opti_results()[["PSO"]])
-  ))
+      )
+      
+      
+  })
   
   output$gbs_box <- renderValueBox(
     valueBox(
       h4("Gravitational Based Search"),
-      color = "light-blue",
+      color = colorpicker(opti_results()[["GBS"]],opti_results()),
       h2("MIN: ", opti_results()[["GBS"]])
     ))
   
   output$abc_box <- renderValueBox(
     valueBox(
       h4("Artificial Bee Colony"),
-      color = "light-blue",
+      color = colorpicker(opti_results()[["ABC"]],opti_results()),
       h2("MIN: ", opti_results()[["ABC"]])
     ))
   
   output$ga_box <- renderValueBox(
     valueBox(
       h4("Genetic Algorithm"),
-      color = "light-blue",
+      color = colorpicker(opti_results()[["GA"]],opti_results()),
       h2("MIN: ", opti_results()[["GA"]])
     ))
   
   output$gwo_box <- renderValueBox(
     valueBox(
       h4("Grey Wolf Optimize"),
-      color = "light-blue",
+      color = colorpicker(opti_results()[["GWO"]],opti_results()),
       h2("MIN: ", opti_results()[["GWO"]])
     ))
   
   output$ffa_box <- renderValueBox(
     valueBox(
       h4("Firefly Algorithm"),
-      color = "light-blue",
+      color = colorpicker(opti_results()[["FFA"]],opti_results()),
       h2("MIN: ", opti_results()[["FFA"]])
     ))
   
