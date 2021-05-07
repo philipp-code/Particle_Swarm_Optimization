@@ -156,37 +156,36 @@ tabsetPanel(
            icon = icon("chart-bar"),
   sidebarLayout(
     sidebarPanel(
-      numericInput(
-        inputId = "comparison_inertia",
-        label = "Inerita",
-        value = 1,
-        min = 0,
-        max = 1,
-        step = 0.1
-      ),
+
       selectInput(
-        inputId = "comparison_function",
-        label = "Base Function",
-        choices = list("f1" = "f1", "f2" = "f2")
+        inputId = "c_function",
+        label = "Function:",
+        choices = c("Function 1", "Function 2"),
+        selected = FALSE
       ),
-      numericInput(
-        inputId = "comparison_particles",
-        label = "Number of Particles",
+      
+      sliderInput(
+        inputId = "c_iterations",
+        label = "Maximum Iterations:",
         value = 100,
         min = 1,
-        max = 1000
+        max = 1000,
+        step = 1
       ),
-      selectInput(
-        inputId = "comparison_auto_coef",
-        label = "Auto-Coefficient",
-        choices = list("On" = TRUE, "Off" = FALSE),
-        selected = TRUE
+      sliderInput(
+        inputId = "c_populations",
+        label = "Number of Populations:",
+        value = 5,
+        min = 4,
+        max = 30,
+        step = 1
       ),
-      selectInput(
-        inputId = "comparison_norm_arrows",
-        label = "Normalize Arrows",
-        choices = list("On" = TRUE, "Off" = FALSE),
-        selected = FALSE
+      sliderInput(
+        inputId = "c_variables",
+        label = "Number of Variables:",
+        value = 5,
+        min = 2,
+        max = 100
       )
       
     ),
@@ -194,30 +193,46 @@ tabsetPanel(
       br(),
         fluidRow(
           box(
-            h3("PSO"),
+            h4("Particle Swarm Optimization"),
             background = "light-blue",
-            height = 190
+            height = 100,
+            "Testtest"
             
           ),
           box(
-            h2("ABC"),
+            h4("Artificial Bee Colony"),
             background = "black",
-            height = 190
+            height = 100
             
           )
         ),
       
       fluidRow(
         box(
-          "GA",
+          h4("Genetic Algorithm"),
           background = "orange",
-          height = 190
+          height = 100
           
         ),
         box(
-          "GSA",
+          h4("Gravitational Search Algorithm"),
           background = "yellow",
-          height = 190
+          height = 100
+          
+        )
+      ),
+      
+      fluidRow(
+        box(
+          h4("Grey Wolf Algorithm"),
+          background = "orange",
+          height = 100
+          
+        ),
+        box(
+          h4("Firefly Algorithm"),
+          background = "yellow",
+          height = 100
           
         )
       )
