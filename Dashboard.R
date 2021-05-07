@@ -7,6 +7,7 @@ library(shinyWidgets)
 library(shinydashboard) # use for box
 library(shinycssloaders) # use for loading icon
 library(metaheuristicOpt) # use for optim functions
+library(hash) # use for hashmap
 #UI
 library(shinythemes)
 library(plotly)
@@ -207,49 +208,19 @@ ui <- fluidPage(
         mainPanel(
           br(),
           fluidRow(
-            box(
-            h4("Particle Swarm Optimization"),
-            background = "light-blue",
-            height = 100,
-            textOutput("pso_result")
-              
-            ),
-            box(
-              h4("Artificial Bee Colony"),
-              background = "black",
-              height = 100
-              
-            )
+            valueBoxOutput("pso_box", width = 6),
+            valueBoxOutput("abc_box", width = 6)
+            
           ),
           
           fluidRow(
-            box(
-              h4("Genetic Algorithm"),
-              background = "orange",
-              height = 100
-              
-            ),
-            box(
-              h4("Gravitational Search Algorithm"),
-              background = "yellow",
-              height = 100
-              
-            )
+            valueBoxOutput("ga_box", width = 6),
+            valueBoxOutput("gbs_box", width = 6)
           ),
           
           fluidRow(
-            box(
-              h4("Grey Wolf Algorithm"),
-              background = "orange",
-              height = 100
-              
-            ),
-            box(
-              h4("Firefly Algorithm"),
-              background = "yellow",
-              height = 100
-              
-            )
+            valueBoxOutput("gwo_box", width = 6),
+            valueBoxOutput("ffa_box", width = 6)
           )
           
           
@@ -433,15 +404,77 @@ server <- function(input, output, session) {
     matrix(out_lims, nrow=2)
     })
   
-  output$pso_result <- renderText({
 
+  opti_results <- reactive({
+    results <- hash()
     r_fun <- fun()
     
     resultPSO <- PSO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                      maxIter=input$c_iterations, rangeVar = rangeVar())
+    resultGBS <- GBS(r_fun, optimType = "MIN", numVar=input$c_variables, numPopulation = input$c_populations,
+                     maxIter = input$c_iterations, rangeVar = rangeVar(), gravitationalConst = max(rangeVar()),
+                     kbest = 0.1)
+    resultABC <- ABC(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                     maxIter=input$c_iterations, rangeVar = rangeVar())
+    resultGA <- GA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                   maxIter=input$c_iterations, rangeVar = rangeVar())
+    resultGWO <- GWO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                     maxIter=input$c_iterations, rangeVar = rangeVar())
+    resultFFA <- FFA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                     maxIter=input$c_iterations, rangeVar = rangeVar())
     
-    r_fun(resultPSO)
+    results[["PSO"]] <- round(r_fun(resultPSO), digits = 4)
+    results[["GBS"]] <- round(r_fun(resultGBS), digits = 4)
+    results[["ABC"]] <- round(r_fun(resultABC), digits = 4)
+    results[["GA"]] <- round(r_fun(resultGA), digits = 4)
+    results[["GWO"]] <- round(r_fun(resultGWO), digits = 4)
+    results[["FFA"]] <- round(r_fun(resultFFA), digits = 4)
+    
+    results
   })
+  
+  output$pso_box <- renderValueBox(
+    valueBox(
+      h4("Particle Swarm Optimization"),
+      color = "light-blue",
+      h2("MIN: ", opti_results()[["PSO"]])
+  ))
+  
+  output$gbs_box <- renderValueBox(
+    valueBox(
+      h4("Gravitational Based Search"),
+      color = "light-blue",
+      h2("MIN: ", opti_results()[["GBS"]])
+    ))
+  
+  output$abc_box <- renderValueBox(
+    valueBox(
+      h4("Artificial Bee Colony"),
+      color = "light-blue",
+      h2("MIN: ", opti_results()[["ABC"]])
+    ))
+  
+  output$ga_box <- renderValueBox(
+    valueBox(
+      h4("Genetic Algorithm"),
+      color = "light-blue",
+      h2("MIN: ", opti_results()[["GA"]])
+    ))
+  
+  output$gwo_box <- renderValueBox(
+    valueBox(
+      h4("Grey Wolf Optimize"),
+      color = "light-blue",
+      h2("MIN: ", opti_results()[["GWO"]])
+    ))
+  
+  output$ffa_box <- renderValueBox(
+    valueBox(
+      h4("Firefly Algorithm"),
+      color = "light-blue",
+      h2("MIN: ", opti_results()[["FFA"]])
+    ))
+  
   
 }
 
