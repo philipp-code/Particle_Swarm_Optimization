@@ -20,6 +20,10 @@ ui <- fluidPage(
   theme = shinytheme("united"),
   useShinydashboard(),
   
+  tags$head(tags$style(
+    "body { word-wrap: break-word; }"
+  )), # so that columns don't overlap
+  
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
     column(3, img(height = 110, src = "dhbw_logo.png"))
@@ -32,17 +36,18 @@ ui <- fluidPage(
       "Introduction",
       icon = icon("info"),
       
-      column(1),
-      
       column(3,
+             align = "center",
              br(), br(),
              uiOutput("process_step_n")),
-      
       column(
-        5,
+        6,
+        align = "center",
         br(),
+        actionButton("process_start", label = "  Start Process", icon = icon("play-circle"),
+                     style="color: #fff; background-color: #337ab7; border-color: #2e6da4;"),
         actionButton("process_b", icon("arrow-left",lib = "font-awesome"), 
-                     style="color: #fff; background-color: #337ab7; margin-left:160px; border-color: #2e6da4"),
+                     style="color: #fff; background-color: #337ab7; margin-left:10px; border-color: #2e6da4"),
         actionButton("process_f", icon("arrow-right",lib = "font-awesome"), 
                      style="color: #fff; background-color: #337ab7; margin-left:10px; border-color: #2e6da4"), #Quelle:https://stackoverflow.com/questions/33620133/change-the-color-of-action-button-in-shiny 
         
@@ -50,7 +55,9 @@ ui <- fluidPage(
         br(),
         uiOutput("process_step_e")
       ),
+      #column(1),
       column(3,
+             align = "center",
              br(), br(), br(), br(),
       valueBoxOutput("explanation_box", width = "100%") %>% withSpinner(color="lightblue")
       )
@@ -249,6 +256,12 @@ server <- function(input, output, session) {
   #=================== Introduction ===================================
   step_counter <- reactiveValues(process_step = 1)
   
+  observeEvent(input$process_start, {
+    step_counter$process_step <- 2
+    
+  })
+  
+  
   observeEvent(input$process_f, {
     # button to go forward
     if (step_counter$process_step > 6) {
@@ -271,25 +284,25 @@ server <- function(input, output, session) {
   
   output$process_step_n <- renderUI({
     if (step_counter$process_step == 1) {
-      img(src = "process.png", height = 400)
+      img(src = "process.png", height = 500)
       
     } else if (step_counter$process_step == 2) {
-      img(src = "step_1.png", height = 400)
+      img(src = "step_1.png", height = 500)
       
     } else if (step_counter$process_step == 3) {
-      img(src = "step_2.png", height = 400)
+      img(src = "step_2.png", height = 500)
       
     } else if (step_counter$process_step == 4) {
-      img(src = "step_3.png", height = 400)
+      img(src = "step_3.png", height = 500)
       
     } else if (step_counter$process_step == 5) {
-      img(src = "step_4.png", height = 400)
+      img(src = "step_4.png", height = 500)
       
     } else if (step_counter$process_step == 6) {
-      img(src = "step_5.png", height = 400)
+      img(src = "step_5.png", height = 500)
       
     } else if (step_counter$process_step == 7) {
-      img(src = "step_6.png", height = 400)
+      img(src = "step_6.png", height = 500)
       
     }
   })
@@ -297,23 +310,26 @@ server <- function(input, output, session) {
   output$process_step_e <- renderUI({
     
     
-    if (step_counter$process_step == 2) {
-      img(src = "Example_1.png", height = 400)
+    if (step_counter$process_step == 1) {
+      img(src = "cover.jpg", height = 500)
+      
+    } else if (step_counter$process_step == 2) {
+      img(src = "Example_1.png", height = 500)
       
     } else if (step_counter$process_step == 3) {
-      img(src = "Example_2.png", height = 400)
+      img(src = "Example_2.png", height = 500)
       
     } else if (step_counter$process_step == 4) {
-      img(src = "Example_3.png", height = 400)
+      img(src = "Example_3.png", height = 500)
       
     } else if (step_counter$process_step == 5) {
-      img(src = "Example_8.png", height = 400)
+      img(src = "Example_8.png", height = 500)
       
     } else if (step_counter$process_step == 6) {
-      img(src = "Example_9.png", height = 400)
+      img(src = "Example_9.png", height = 500)
       
     } else if (step_counter$process_step == 7) {
-      img(src = "Example_2.png", height = 400)
+      img(src = "Example_2.png", height = 500)
       
     }}
   )
