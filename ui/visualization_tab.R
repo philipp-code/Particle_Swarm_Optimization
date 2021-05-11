@@ -11,7 +11,7 @@ visualization_tab = tabPanel(
         numericInput(
           inputId = "inertia",
           label = "Inerita",
-          value = 1,
+          value = 0.8,
           min = 0,
           max = 1,
           step = 0.1
@@ -26,18 +26,34 @@ visualization_tab = tabPanel(
             "Eggholder" = "Eggholder"
           )
         ),
-        numericInput(
+        sliderInput(
           inputId = "n_particles",
           label = "Number of Particles",
           value = 100,
           min = 1,
-          max = 1000
+          max = 500
         ),
         selectInput(
           inputId = "auto_coef",
           label = "Auto-Coefficient",
           choices = list("On" = TRUE, "Off" = FALSE),
           selected = TRUE
+        ),
+        numericInput(
+          inputId = "coef_1",
+          label = "Local Coefficient",
+          value = 1,
+          max = 3.5,
+          min = 0.5,
+          step = 0.05
+        ),
+        numericInput(
+          inputId = "coef_2",
+          label = "Global Coefficient",
+          value = 1,
+          max = 3.5,
+          min = 0.5,
+          step = 0.05
         ),
         selectInput(
           inputId = "norm_arrows",

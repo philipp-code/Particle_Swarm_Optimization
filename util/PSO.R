@@ -90,11 +90,11 @@ pso = setRefClass("pso",
                     
                     plot_state = function(){
                       image(x_image[,1], x_image[,2], z, xlab="x", ylab="y", 
-                            main = paste("g_best = ", round(g_best_value, digits = 4),
-                                         "  [", round(g_best[1], digits = 2),
+                            main = paste("Global Best = ", round(g_best_value, digits = 4),
+                                         " at [", round(g_best[1], digits = 2),
                                          ", ", round(g_best[2], digits = 2), "]",
-                                         ", c_1 = ", round(c_1, digits = 4),
-                                         ", c_2 = ", round(c_2, digits = 4), sep = ""),
+                                         "\nLocal Coef. = ", round(c_1, digits = 2),
+                                         ", Global Coef. = ", round(c_2, digits = 2), sep = ""),
                             
                                       #  ", auto_coef = ", auto_coef,
                                       #  ", Normalize Arrows = ", norm_arrow,
@@ -133,8 +133,8 @@ pso = setRefClass("pso",
 
 
 
-run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_inertia, input_arrows, input_function_selected){
-  pso_1 = init_pso(max_iter, n_particles, input_auto_coef, input_inertia, input_arrows, input_function_selected)
+run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_c_1, input_c_2, input_inertia, input_arrows, input_function_selected){
+  pso_1 = init_pso(max_iter, n_particles, input_auto_coef, input_c_1, input_c_2, input_inertia, input_arrows, input_function_selected)
   
   while (pso_1$iter < input_iter) {
     pso_1$next_i()
@@ -143,7 +143,7 @@ run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_ine
   pso_1
 }
 
-init_pso = function(max_iter, input_n_particles, input_auto_coef, input_inertia, input_arrows, input_function_selected){
+init_pso = function(max_iter, input_n_particles, input_auto_coef, input_c_1, input_c_2, input_inertia, input_arrows, input_function_selected){
   set.seed(31)
   def_area = c(-6, 6)
   if (input_function_selected == "Himmelblau") {
@@ -154,7 +154,7 @@ init_pso = function(max_iter, input_n_particles, input_auto_coef, input_inertia,
   } else if (input_function_selected == "Rosenbrock") {
     
     fitness  <- function(x, y){ (1-x)**2 + 100* ((y-x**2))**2} # rosenbrock
-    def_area = c(-25, 25)
+    def_area = c(-2, 2)
     
   } else if (input_function_selected == "Rastrigin") {
     
@@ -190,7 +190,7 @@ init_pso = function(max_iter, input_n_particles, input_auto_coef, input_inertia,
               velocities = velocities,
               fitness_function = fitness,
               search_space = def_area,
-              w = input_inertia, c_1=1, c_2=1, max_iter=max_iter, auto_coef = auto_coef,
+              w = input_inertia, c_1=input_c_1, c_2=input_c_2, max_iter=max_iter, auto_coef = auto_coef,
               N = nrow(particles), p_bests = particles,
               p_bests_values = fitness(particles[ ,1], particles[ ,2]),
               g_best = particles[1, ],
