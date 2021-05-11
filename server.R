@@ -164,23 +164,10 @@ server <- function(input, output, session) {
   #initalize pso
   pso = NULL
   
-  #    reactive({
-  #    #returns message if test fails
-  #    validate(need(!is.null(input$inertia), "inertia is null"))
-  #    #initial plot (iter = 0)
-  #   init_pso(
-  #      max_iterations,
-  #      input$n_particles,
-  #      as.logical(input$auto_coef),
-  #      input$inertia,
-  #      as.logical(input$norm_arrows)
-  #    )
-  #  })
-  
   
   #plot current pso state
   pso_output = reactive({
-    validate(need(input$inertia == 1, "inertia is null"))
+    validate(need(input$inertia > 0, "inertia is null"))
     
     
     run_pso(
@@ -188,7 +175,9 @@ server <- function(input, output, session) {
       max_iterations,
       input$n_particles,
       as.logical(input$auto_coef),
-      input$inertia ,
+      input$coef_1,
+      input$coef_2,
+      input$inertia,
       as.logical(input$norm_arrows),
       input$function_selected
     )
