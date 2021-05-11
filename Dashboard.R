@@ -17,12 +17,8 @@ source("PSO.R")
 #UI
 
 ui <- fluidPage(
-  theme = shinytheme("united"),
+  theme = shinytheme("readable"),
   useShinydashboard(),
-  
-  tags$head(tags$style(
-    "body { word-wrap: break-word; }"
-  )), # so that columns don't overlap
   
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
@@ -39,7 +35,8 @@ ui <- fluidPage(
       column(3,
              align = "center",
              br(), br(),
-             uiOutput("process_step_n")),
+             uiOutput("process_step_n") %>% withSpinner(color="lightblue")
+             ),
       column(
         6,
         align = "center",
@@ -53,7 +50,7 @@ ui <- fluidPage(
         
         br(),
         br(),
-        uiOutput("process_step_e")
+        uiOutput("process_step_e") %>% withSpinner(color="lightblue")
       ),
       #column(1),
       column(3,
@@ -342,7 +339,7 @@ server <- function(input, output, session) {
         h4("Particle Swarm Optimization"),
         color = "light-blue",
         h2("The PSO algorithm is a stochastic optimization technique. It simulates animal's 
-            social behavior cooperating with each in a swarm in order to find food.")
+            social behavior cooperating with each other in a swarm in order to find food.")
       )
       
     } else if (step_counter$process_step == 2) {

@@ -5,9 +5,9 @@ account: kmatysova2
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4104771
-bundleId: 4585306
+bundleId: 4585813
 url: https://kmatysova2.shinyapps.io/Particle_Swarm_Optimization/
-when: 1620733833.90933
-lastSyncTime: 1620733833.90933
+when: 1620742000.67295
+lastSyncTime: 1620742000.67295
 asMultiple: FALSE
 asStatic: FALSE
