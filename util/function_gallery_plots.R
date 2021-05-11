@@ -1,4 +1,4 @@
-
+library(plotly)
 generate_gallery_plot <- function(function_select){
   
   if (function_select == "Himmelblau") {
