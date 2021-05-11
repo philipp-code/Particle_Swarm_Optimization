@@ -39,13 +39,21 @@ ui <- fluidPage(
              uiOutput("process_step_n")),
       
       column(
-        3,
+        5,
         br(),
-        actionButton("process_b", "Back"),
-        actionButton("process_f", "Forward")
+        actionButton("process_b", icon("arrow-left",lib = "font-awesome"), 
+                     style="color: #fff; background-color: #337ab7; margin-left:160px; border-color: #2e6da4"),
+        actionButton("process_f", icon("arrow-right",lib = "font-awesome"), 
+                     style="color: #fff; background-color: #337ab7; margin-left:10px; border-color: #2e6da4"), #Quelle:https://stackoverflow.com/questions/33620133/change-the-color-of-action-button-in-shiny 
+        
+        br(),
+        br(),
+        uiOutput("process_step_e")
       ),
-      column(4)
-      
+      column(3,
+             br(), br(), br(), br(),
+      valueBoxOutput("explanation_box", width = "100%") %>% withSpinner(color="lightblue")
+      )
     ),
     
     #================= Gallery functionality ============================
@@ -282,6 +290,98 @@ server <- function(input, output, session) {
       
     } else if (step_counter$process_step == 7) {
       img(src = "step_6.png", height = 400)
+      
+    }
+  })
+  
+  output$process_step_e <- renderUI({
+    
+    
+    if (step_counter$process_step == 2) {
+      img(src = "Example_1.png", height = 400)
+      
+    } else if (step_counter$process_step == 3) {
+      img(src = "Example_2.png", height = 400)
+      
+    } else if (step_counter$process_step == 4) {
+      img(src = "Example_3.png", height = 400)
+      
+    } else if (step_counter$process_step == 5) {
+      img(src = "Example_8.png", height = 400)
+      
+    } else if (step_counter$process_step == 6) {
+      img(src = "Example_9.png", height = 400)
+      
+    } else if (step_counter$process_step == 7) {
+      img(src = "Example_2.png", height = 400)
+      
+    }}
+  )
+  
+  output$explanation_box <- renderValueBox({
+    
+    if (step_counter$process_step == 1) {
+      
+      valueBox(
+        h4("Particle Swarm Optimization"),
+        color = "light-blue",
+        h2("The PSO algorithm is a stochastic optimization technique. It simulates animal's 
+            social behavior cooperating with each in a swarm in order to find food.")
+      )
+      
+    } else if (step_counter$process_step == 2) {
+      
+      valueBox(
+        h4("Generate initial particle:"),
+        color = "light-blue",
+        h2("Starting positions of 
+        the particles are distributed over the whole room")
+      )
+      
+    } else if (step_counter$process_step == 3) {
+      
+      valueBox(
+        h4("Evaluate the fitness function (local level):"),
+        color = "light-blue",
+        h2("At each time step each particle computes
+        the value of the fitness function at it's current position")
+      )
+      
+    } else if (step_counter$process_step == 4) {
+      img(src = "Example_3.png", height = 400)
+      
+      valueBox(
+        h4("Update personal and global best(local level):"),
+        color = "light-blue",
+        h2("compares that value (from the 
+        step before) to it's previous best value, and if it's greater-> updates it")
+      )
+      
+    } else if (step_counter$process_step == 5) {
+      
+      valueBox(
+        h4("Update velocity and position of particle (vicinity level):"),
+        color = "light-blue",
+        h2("We look at a small set of particels, in some way it changes his velocity
+        we are taking the sum of the behaviours we just had before")
+      )
+      
+    } else if (step_counter$process_step == 6) {
+      img(src = "Example_9.png", height = 400)
+      
+      valueBox(
+        h4("Conversion Criteria met-Yes(global level): "),
+        color = "light-blue",
+        h2("The whole system takes it best til know -> This is already the best possible")
+      )
+      
+    } else if (step_counter$process_step == 7) {
+      
+      valueBox(
+        h4("Conversion Criteria met-No(global level):"),
+        color ="light-blue",
+        h2("It is not the best possible, we need to do it again")
+      )
       
     }
   })
