@@ -14,14 +14,21 @@ source("ui/comparison_tab.R")
 ui <- fluidPage(
   title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
   theme = shinytheme("united"),
+  setBackgroundColor("#F5F5F5"),
+  
   useShinydashboard(),
   chooseSliderSkin("Flat", color = "#e2001a"),
       
   
+<<<<<<< HEAD
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
     tags$style(
   )),
+=======
+  tags$style(".small-box.bg-aqua { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
+  tags$style(".nav-tabs-custom .nav-tabs li.active {border-top-color: #d73925;}"),
+>>>>>>> 115cf85d1da27837d8c508d2bc24f5afb928e147
   
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
@@ -29,9 +36,10 @@ ui <- fluidPage(
     
   )),
   
-  tabsetPanel(introduction_tab, 
-              gallery_tab,
-              visualization_tab,
-              comparison_tab
+  tabBox( width = 12,
+    introduction_tab, 
+    gallery_tab,
+    visualization_tab,
+    comparison_tab
   )
 )
