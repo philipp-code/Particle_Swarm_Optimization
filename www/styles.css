@@ -2,7 +2,6 @@
 
 body {
   word-wrap: break-word; /* prevent tab overlap*/
-  background-color: white;
   color: black; /* text color */
 }
 
