@@ -15,14 +15,18 @@ ui <- fluidPage(
   title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
   theme = shinytheme("united"),
   useShinydashboard(),
+  chooseSliderSkin("Flat", color = "#e2001a"),
+      
   
-  tags$head(tags$style(
-    "body { word-wrap: break-word; }"
-  )), # so that columns don't overlap
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
+    tags$style(
+  )),
   
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
-    column(3, img(height = 110, src = "dhbw_logo.png"))
+    column(3, img(height = 110, src = "dhbw_logo.png")),
+    
   )),
   
   tabsetPanel(introduction_tab, 

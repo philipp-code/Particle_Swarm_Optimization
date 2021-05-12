@@ -1,0 +1,21 @@
+
+
+body {
+  word-wrap: break-word; /* prevent tab overlap*/
+  background-color: white;
+  color: black; /* text color */
+}
+
+/*default panel*/
+.tabbable > .nav > li > a {
+  color: grey
+}
+
+/* selected panel*/
+.tabbable > .nav > li[class=active] > a {
+  color:#e2001a
+}
+
+#sidebar {
+  /*background-color: black;*/
+}

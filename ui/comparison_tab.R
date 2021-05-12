@@ -4,7 +4,7 @@ comparison_tab = tabPanel("Optimization Comparison",
          icon = icon("chart-bar"),
          br(),
          sidebarLayout(
-           sidebarPanel(
+           sidebarPanel(id="sidebar",
              
              selectInput(
                inputId = "c_function",
