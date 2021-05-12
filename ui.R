@@ -19,17 +19,11 @@ ui <- fluidPage(
   useShinydashboard(),
   chooseSliderSkin("Flat", color = "#e2001a"),
       
-  
-<<<<<<< HEAD
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
     tags$style(
   )),
-=======
-  tags$style(".small-box.bg-aqua { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
-  tags$style(".nav-tabs-custom .nav-tabs li.active {border-top-color: #d73925;}"),
->>>>>>> 115cf85d1da27837d8c508d2bc24f5afb928e147
-  
+
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
     column(3, img(height = 110, src = "dhbw_logo.png")),

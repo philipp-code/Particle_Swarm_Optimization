@@ -19,3 +19,11 @@ body {
 #sidebar {
   /*background-color: black;*/
 }
+
+.small-box.bg-aqua { 
+  background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;
+}
+
+.nav-tabs-custom .nav-tabs li.active {
+  border-top-color: #d73925;
+}

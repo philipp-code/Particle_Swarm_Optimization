@@ -151,7 +151,7 @@ server <- function(input, output, session) {
       valueBox(
         h4("Conversion Criteria met-Yes(global level): "),
         color = "light-blue",
-        h2("The whole system takes it best til know -> This is already the best possible")
+        h2("The whole system takes it best til know -> This is already the best possible"),
         color = color,
         h4("Conversion Criteria met-Yes (global level): "),
         h2("The whole system takes it best til know -> This is already the best possible")
