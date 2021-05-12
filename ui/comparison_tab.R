@@ -25,9 +25,9 @@ comparison_tab = tabPanel("Optimization Comparison",
                inputId = "c_populations",
                label = "Number of Populations:",
                value = 5,
-               min = 4,
-               max = 30,
-               step = 1
+               min = 5,
+               max = 50,
+               step = 5
              ),
              sliderInput(
                inputId = "c_variables",
@@ -35,8 +35,8 @@ comparison_tab = tabPanel("Optimization Comparison",
                value = 5,
                min = 2,
                max = 100
-             )
-             #actionButton("play_minimize",label = "Minimize", icon("play"), width = '100%')
+             ),
+             actionButton("play_minimize",label = "Minimize", icon("play"), width = '100%')
              
            ),
            mainPanel(

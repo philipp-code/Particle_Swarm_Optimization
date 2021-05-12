@@ -258,6 +258,22 @@ server <- function(input, output, session) {
   
   #================= Comparison functionality ============================
   
+  output_staging <- reactiveValues()
+  
+  output_staging$opti_results <- ({
+    results = hash()
+    results[["PSO"]] <- 1
+    results[["GBS"]] <- 1
+    results[["ABC"]] <- 1
+    results[["GA"]] <- 1
+    results[["GWO"]] <- 1
+    results[["FFA"]] <- 1
+    
+    results
+  })
+  
+  observeEvent(input$play_minimize,{  update_results()  })
+  
   fun <- reactive({
     generate_comparison_function(input$c_function)[[1]]
   })
@@ -267,82 +283,84 @@ server <- function(input, output, session) {
     matrix(out_lims, nrow=2)
   })
   
-  
-  opti_results <- reactive({
+  update_results <- function(){
     
-    results <- hash()
-    r_fun <- fun()
-    
-    resultPSO <- PSO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+    output_staging$opti_results <- ({
+      
+      results <- hash()
+      r_fun <- fun()
+      
+      resultPSO <- PSO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                       maxIter=input$c_iterations, rangeVar = rangeVar())
+      resultGBS <- GBS(r_fun, optimType = "MIN", numVar=input$c_variables, numPopulation = input$c_populations,
+                       maxIter = input$c_iterations, rangeVar = rangeVar(), gravitationalConst = max(rangeVar()),
+                       kbest = 0.1)
+      resultABC <- ABC(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                       maxIter=input$c_iterations, rangeVar = rangeVar())
+      resultGA <- GA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                      maxIter=input$c_iterations, rangeVar = rangeVar())
-    resultGBS <- GBS(r_fun, optimType = "MIN", numVar=input$c_variables, numPopulation = input$c_populations,
-                     maxIter = input$c_iterations, rangeVar = rangeVar(), gravitationalConst = max(rangeVar()),
-                     kbest = 0.1)
-    resultABC <- ABC(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                     maxIter=input$c_iterations, rangeVar = rangeVar())
-    resultGA <- GA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                   maxIter=input$c_iterations, rangeVar = rangeVar())
-    resultGWO <- GWO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                     maxIter=input$c_iterations, rangeVar = rangeVar())
-    resultFFA <- FFA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                     maxIter=input$c_iterations, rangeVar = rangeVar())
-    
-    results[["PSO"]] <- round(r_fun(resultPSO), digits = 4)
-    results[["GBS"]] <- round(r_fun(resultGBS), digits = 4)
-    results[["ABC"]] <- round(r_fun(resultABC), digits = 4)
-    results[["GA"]] <- round(r_fun(resultGA), digits = 4)
-    results[["GWO"]] <- round(r_fun(resultGWO), digits = 4)
-    results[["FFA"]] <- round(r_fun(resultFFA), digits = 4)
-    
-    results
-  })
+      resultGWO <- GWO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                       maxIter=input$c_iterations, rangeVar = rangeVar())
+      resultFFA <- FFA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
+                       maxIter=input$c_iterations, rangeVar = rangeVar())
+      
+      results[["PSO"]] <- round(r_fun(resultPSO), digits = 4)
+      results[["GBS"]] <- round(r_fun(resultGBS), digits = 4)
+      results[["ABC"]] <- round(r_fun(resultABC), digits = 4)
+      results[["GA"]] <- round(r_fun(resultGA), digits = 4)
+      results[["GWO"]] <- round(r_fun(resultGWO), digits = 4)
+      results[["FFA"]] <- round(r_fun(resultFFA), digits = 4)
+      
+      results
+    })
+  }
+
   
   output$pso_box <- renderValueBox({
     
     valueBox(
       
       h4("Particle Swarm Optimization"),
-      color = colorpicker(opti_results()[["PSO"]],opti_results()),
-      h2("MIN: ", opti_results()[["PSO"]])
-    )
-    
-    
+      color = colorpicker(output_staging$opti_results[["PSO"]],output_staging$opti_results),
+      h2("MIN: ", output_staging$opti_results[["PSO"]])
+    ) 
   })
   
-  output$gbs_box <- renderValueBox(
+  output$gbs_box <- renderValueBox({
     valueBox(
       h4("Gravitational Based Search"),
-      color = colorpicker(opti_results()[["GBS"]],opti_results()),
-      h2("MIN: ", opti_results()[["GBS"]])
-    ))
+      color = colorpicker(output_staging$opti_results[["GBS"]],output_staging$opti_results),
+      h2("MIN: ", output_staging$opti_results[["GBS"]])
+    )})
   
-  output$abc_box <- renderValueBox(
+  output$abc_box <- renderValueBox({
+
     valueBox(
       h4("Artificial Bee Colony"),
-      color = colorpicker(opti_results()[["ABC"]],opti_results()),
-      h2("MIN: ", opti_results()[["ABC"]])
-    ))
+      color = colorpicker(output_staging$opti_results[["ABC"]],output_staging$opti_results),
+      h2("MIN: ", output_staging$opti_results[["ABC"]])
+    )})
   
-  output$ga_box <- renderValueBox(
+  output$ga_box <- renderValueBox({
     valueBox(
       h4("Genetic Algorithm"),
-      color = colorpicker(opti_results()[["GA"]],opti_results()),
-      h2("MIN: ", opti_results()[["GA"]])
-    ))
+      color = colorpicker(output_staging$opti_results[["GA"]],output_staging$opti_results),
+      h2("MIN: ", output_staging$opti_results[["GA"]])
+    )})
   
-  output$gwo_box <- renderValueBox(
+  output$gwo_box <- renderValueBox({
     valueBox(
       h4("Grey Wolf Optimize"),
-      color = colorpicker(opti_results()[["GWO"]],opti_results()),
-      h2("MIN: ", opti_results()[["GWO"]])
-    ))
+      color = colorpicker(output_staging$opti_results[["GWO"]],output_staging$opti_results),
+      h2("MIN: ", output_staging$opti_results[["GWO"]])
+    )})
   
-  output$ffa_box <- renderValueBox(
+  output$ffa_box <- renderValueBox({
     valueBox(
       h4("Firefly Algorithm"),
-      color = colorpicker(opti_results()[["FFA"]],opti_results()),
-      h2("MIN: ", opti_results()[["FFA"]])
-    ))
+      color = colorpicker(output_staging$opti_results[["FFA"]],output_staging$opti_results),
+      h2("MIN: ", output_staging$opti_results[["FFA"]])
+  )})
   
   
 }

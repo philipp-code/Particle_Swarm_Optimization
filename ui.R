@@ -19,6 +19,7 @@ ui <- fluidPage(
   useShinydashboard(),
   
   tags$style(".small-box.bg-aqua { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
+  tags$style(".small-box.bg-black { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
   tags$style(".nav-tabs-custom .nav-tabs li.active {border-top-color: #d73925;}"),
   
   titlePanel(fluidRow(
@@ -32,4 +33,5 @@ ui <- fluidPage(
     visualization_tab,
     comparison_tab
   )
+  
 )
