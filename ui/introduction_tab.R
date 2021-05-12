@@ -3,7 +3,7 @@
 
 introduction_tab = tabPanel(
   "Introduction",
-  icon = icon("info"),
+  icon = icon("book-open"),
   
   fluidRow(
     column(3,

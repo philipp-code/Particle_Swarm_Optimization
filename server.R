@@ -13,7 +13,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$intro_info_button, {
     sendSweetAlert(session, title = "How to navigate", text = "Here you find a description of the algorithm.
-                   Use the buttons to scroll through individual steps of the process.", type = "info")
+                   Use the buttons to scroll through individual steps of the process.", btn_colors = "#d73925")
   })
   
   step_counter <- reactiveValues(process_step = 1)
@@ -183,7 +183,7 @@ server <- function(input, output, session) {
   observeEvent(input$vis_info_button, {
     sendSweetAlert(session, title = "How to navigate", text = "On this page the algorithm comes alive.
                    Change input parameters on the left and start the iterations. Now you will see the 
-                   particles searching for the optimum.", type = "info")
+                   particles searching for the optimum.", btn_colors = "#d73925")
   })
   
   
@@ -233,7 +233,7 @@ server <- function(input, output, session) {
   observeEvent(input$gallery_info_button, {
     sendSweetAlert(session, title = "How to navigate", text = "Visualize different functions in this gallery.
                    You can change the function, color, and opacity to your liking. Feel free to take a screenshot 
-                   with the camera icon above the plot.", type = "info")
+                   with the camera icon above the plot.", btn_colors = "#d73925")
   })
   
   observe({
@@ -294,7 +294,7 @@ server <- function(input, output, session) {
     sendSweetAlert(session, title = "How to navigate", text = "Adjust the input parameters on the left to see how 
                        different algorithms compare to each other. The best ones will turn green
                        and the worst ones red. Note that with high parameter values the 
-                       calculations may take a while.", type = "info")
+                       calculations may take a while.", btn_colors = "#d73925")
     })
   
   output_staging <- reactiveValues()
