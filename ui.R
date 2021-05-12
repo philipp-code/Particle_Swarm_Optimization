@@ -14,13 +14,11 @@ source("ui/comparison_tab.R")
 ui <- fluidPage(
   title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
   theme = shinytheme("united"),
-  setBackgroundColor("#F5F9FC"),
+  setBackgroundColor("#F5F5F5"),
   
   useShinydashboard(),
   
-  tags$head(tags$style(
-    "body { word-wrap: break-word; }"
-  )), # so that columns don't overlap
+  tags$style(".small-box.bg-aqua { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
   
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
