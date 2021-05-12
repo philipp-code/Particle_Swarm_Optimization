@@ -107,7 +107,8 @@ server <- function(input, output, session) {
         h4("Generate initial particle:"),
         color = "light-blue",
         h2("Starting positions of 
-        the particles are distributed over the whole room")
+        the particles are distributed over the whole room: In this example
+        we have three people who want to find the minimum in a mountain region")
       )
       
     } else if (step_counter$process_step == 3) {
@@ -116,7 +117,10 @@ server <- function(input, output, session) {
         h4("Evaluate the fitness function (local level):"),
         color = "light-blue",
         h2("At each time step each particle computes
-        the value of the fitness function at it's current position")
+        the value of the fitness function at it's current position: Each person walks for example
+        5 km in every of the three directions and gets a new position.
+        If this new position is better than the personal or team best loaction the person needs 
+        to update it's recall, if not, the person doesn't need to take any action")
       )
       
     } else if (step_counter$process_step == 4) {
@@ -126,7 +130,9 @@ server <- function(input, output, session) {
         h4("Update personal and global best(local level):"),
         color = "light-blue",
         h2("compares that value (from the 
-        step before) to it's previous best value, and if it's greater-> updates it")
+        step before) to it's previous best value, and if it's greater-> updates it: We assume that the new position is
+        not better than the personal or teams best location, so the person starts from the new position. The person
+        walks again 5 km in each direction.")
       )
       
     } else if (step_counter$process_step == 5) {
@@ -144,7 +150,7 @@ server <- function(input, output, session) {
       valueBox(
         h4("Conversion Criteria met-Yes(global level): "),
         color = "light-blue",
-        h2("The whole system takes it best til know -> This is already the best possible")
+        h2("The whole system takes it best til know -> This is already the best possible: ")
       )
       
     } else if (step_counter$process_step == 7) {
