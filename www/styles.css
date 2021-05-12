@@ -3,6 +3,8 @@
 body {
   word-wrap: break-word; /* prevent tab overlap*/
   color: black; /* text color */
+  background-color: #F5F5F5
+;
 }
 
 /*default panel*/

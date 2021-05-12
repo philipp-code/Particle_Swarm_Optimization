@@ -13,9 +13,6 @@ source("ui/comparison_tab.R")
 #=========================================================
 ui <- fluidPage(
   title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
-  theme = shinytheme("united"),
-  setBackgroundColor("#F5F5F5"),
-  
   useShinydashboard(),
   chooseSliderSkin("Flat", color = "#e2001a"),
       
