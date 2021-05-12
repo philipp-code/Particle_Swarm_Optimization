@@ -4,8 +4,12 @@ gallery_tab = tabPanel(
   "Function Gallery",
   icon = icon("photo"),
   
+  fluidRow(
+    actionButton("gallery_info_button", icon("info"))
+  ),
+  
   sidebarLayout(
-    sidebarPanel(id="sidebar", br(), br(),
+    sidebarPanel(id="sidebar",
       selectInput(
         inputId = "function_type_select",
         label = "Type of Function:",
@@ -36,9 +40,6 @@ gallery_tab = tabPanel(
     ),
     
     mainPanel(
-      fluidRow(
-        actionButton("gallery_info_button", icon("info"))
-      ),
       fluidRow(
       column(6,
              plotlyOutput("plot_surface") %>% withSpinner(color="red")),

@@ -1,34 +1,27 @@
 
-  #=================== Introduction ===================================
-  
+#=================== Introduction ===================================
+
 introduction_tab = tabPanel(
-    "Introduction",
-    icon = icon("info"),
-    
-    fluidRow(
-    
+  "Introduction",
+  icon = icon("info"),
+  
+  fluidRow(
     column(3,
-           align = "center",
-           br(), br(),
-           uiOutput("process_step_n")),
-    column(
-      6,
-      align = "center",
-      br(),
-      actionButton("process_start", label = "  Start Process", icon = icon("play-circle")),
-      actionButton("process_b", icon("arrow-left",lib = "font-awesome"), 
-                   style="margin-left:10px"),
-      actionButton("process_f", icon("arrow-right",lib = "font-awesome"),
-                   style="margin-left:10px"), 
-      br(),
-      br(),
-      uiOutput("process_step_e")
+           uiOutput("process_step_n"), align = "center"
     ),
-    #column(1),
-    column(3,
-           align = "left",
-           br(), br(), br(), br(),
-           valueBoxOutput("explanation_box", width = "100%") %>% withSpinner(color="lightblue")
+    column(5,
+           actionButton("process_start", label = "  Start Process", icon = icon("play-circle")),
+           actionButton("process_b", icon("arrow-left",lib = "font-awesome"), 
+                        style="margin-left:10px"),
+           actionButton("process_f", icon("arrow-right",lib = "font-awesome"),
+                        style="margin-left:10px"),
+           
+           uiOutput("process_step_e"), align = "center"
+    ),
+    column(4, br(),
+           valueBoxOutput("explanation_box", width = "70%")
+           , align = "left"
     )
+    
   )
 )

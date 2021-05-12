@@ -39,53 +39,57 @@ server <- function(input, output, session) {
   })
   
   output$process_step_n <- renderUI({
+    
+    width = "100%"
+    
     if (step_counter$process_step == 1) {
-      img(src = "process.png", height = 500)
+      img(src = "process.png", width = width)
       
     } else if (step_counter$process_step == 2) {
-      img(src = "step_1.png", height = 500)
+      img(src = "step_1.png", width = width)
       
     } else if (step_counter$process_step == 3) {
-      img(src = "step_2.png", height = 500)
+      img(src = "step_2.png", width = width)
       
     } else if (step_counter$process_step == 4) {
-      img(src = "step_3.png", height = 500)
+      img(src = "step_3.png", width = width)
       
     } else if (step_counter$process_step == 5) {
-      img(src = "step_4.png", height = 500)
+      img(src = "step_4.png", width = width)
       
     } else if (step_counter$process_step == 6) {
-      img(src = "step_5.png", height = 500)
+      img(src = "step_5.png", width = width)
       
     } else if (step_counter$process_step == 7) {
-      img(src = "step_6.png", height = 500)
+      img(src = "step_6.png", width = width)
       
     }
   })
   
   output$process_step_e <- renderUI({
     
+    width = "100%"
     
     if (step_counter$process_step == 1) {
-      img(src = "cover.jpg", height = 500)
+      img(src = "cover.jpg", width = width)
       
     } else if (step_counter$process_step == 2) {
-      img(src = "1_example.png", height = 500)
+      img(src = "1_example.png", width = width)
       
     } else if (step_counter$process_step == 3) {
-      img(src = "2_example.png", height = 500)
+      img(src = "2_example.png", width = width)
       
     } else if (step_counter$process_step == 4) {
-      img(src = "3_example.png", height = 500)
+      img(src = "3_example.png", width = width)
       
     } else if (step_counter$process_step == 5) {
-      img(src = "4_example.png", height = 500)
+      img(src = "4_example.png", width = width)
       
     } else if (step_counter$process_step == 6) {
-      img(src = "5_example.png", height = 500)
+      img(src = "5_example.png", width = width)
       
     } else if (step_counter$process_step == 7) {
-      img(src = "2_example.png", height = 500)
+      img(src = "2_example.png", width = width)
       
     }}
   )
@@ -97,8 +101,7 @@ server <- function(input, output, session) {
     if (step_counter$process_step == 1) {
       
       valueBox(
-        color = color,
-        h4("Particle Swarm Optimization"),
+        color = color, subtitle = "",
         h2("The PSO algorithm is a stochastic optimization technique. It simulates animal's 
             social behavior cooperating with each in a swarm in order to find food.")
       )
@@ -107,7 +110,7 @@ server <- function(input, output, session) {
       
       valueBox(
         color = color,
-        h4("Generate initial particle:"),
+        subtitle = "",
         h2("Starting positions of 
         the particles are distributed over the whole room: In this example
         we have three people who want to find the minimum in a mountain region")
@@ -117,7 +120,7 @@ server <- function(input, output, session) {
       
       valueBox(
         color = color,
-        h4("Evaluate the fitness function (local level):"),
+        subtitle = "",
         h2("At each time step each particle computes
         the value of the fitness function at it's current position: Each person walks for example
         5 km in every of the three directions and gets a new position.
@@ -130,7 +133,7 @@ server <- function(input, output, session) {
       
       valueBox(
         color = color,
-        h4("Update personal and global best(local level):"),
+        subtitle = "",
         h2("compares that value (from the 
         step before) to it's previous best value, and if it's greater-> updates it: We assume that the new position is
         not better than the personal or teams best location, so the person starts from the new position. The person
@@ -141,7 +144,7 @@ server <- function(input, output, session) {
       
       valueBox(
         color = color,
-        h4("Update velocity and position of particle (vicinity level):"),
+        subtitle = "",
         h2("We look at a small set of particels, in some way it changes his velocity
         we are taking the sum of the behaviours we just had before:If we change the distance to 10 km,
         the person will end up somewhere in this grey area. 
@@ -151,11 +154,10 @@ server <- function(input, output, session) {
     } else if (step_counter$process_step == 6) {
       
       valueBox(
-        h4("Conversion Criteria met-Yes(global level): "),
-        color = "light-blue",
+        subtitle = "",
         h2("The whole system takes it best til know -> This is already the best possible: We see, 
         that is the whole teams works together, they will find the minimum of the mountain region."),
-        color = color,
+        color = color
        
       )
       
@@ -163,7 +165,7 @@ server <- function(input, output, session) {
       
       valueBox(
         color = color,
-        h4("Conversion Criteria met-No (global level):"),
+        subtitle = "",
         h2("It is not the best possible, we need to do it again")
       )
       

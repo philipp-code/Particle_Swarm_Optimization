@@ -20,12 +20,12 @@ body {
   /*background-color: black;*/
 }
 
-.btn.btn-default.action-button.shiny-bound-input {color: #000000; background-color: #F5F5F5; border-color: #F5F5F5}
+.btn.btn-default.action-button.shiny-bound-input {color: #000000; background-color: #F5F5F5; border-color: #F5F5F5; margin-bottom: 10px; }
 
 #play_minimize {color: #FFFFFF; background-color: #d73925; border-color: #d73925}
 
 .small-box.bg-aqua { 
-  background-color: #FFFFFF !important; color: #000000 !important; box-shadow: none !important; word-wrap: break-word;
+  background-color: #FFFFFF !important; color: #000000 !important; box-shadow: none !important; word-wrap: break-word; display: block;
 }
 
 .bg-black {background-color: #D3D3D3 !important; font-style: normal !important;}
@@ -41,7 +41,7 @@ body {
 /* prevent icons from being italic */
 fa { font-style: normal !important;} 
 
-#compare_info_button {color: #FFFFFF; background-color: #d73925; margin-bottom: 20px;  margin-right: 20px; float: right; width: 30px; height: 30px;}
+#compare_info_button {color: #FFFFFF; background-color: #d73925; margin-bottom: 10px;  margin-right: 20px; float: right; width: 30px; height: 30px;}
 
 #gallery_info_button {color: #FFFFFF; background-color: #d73925; margin-right: 20px; float: right; width: 30px; height: 30px;}
 
