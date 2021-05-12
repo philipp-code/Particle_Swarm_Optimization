@@ -109,7 +109,8 @@ server <- function(input, output, session) {
         color = color,
         h4("Generate initial particle:"),
         h2("Starting positions of 
-        the particles are distributed over the whole room")
+        the particles are distributed over the whole room: In this example
+        we have three people who want to find the minimum in a mountain region")
       )
       
     } else if (step_counter$process_step == 3) {
@@ -118,7 +119,10 @@ server <- function(input, output, session) {
         color = color,
         h4("Evaluate the fitness function (local level):"),
         h2("At each time step each particle computes
-        the value of the fitness function at it's current position")
+        the value of the fitness function at it's current position: Each person walks for example
+        5 km in every of the three directions and gets a new position.
+        If this new position is better than the personal or team best loaction the person needs 
+        to update it's recall, if not, the person doesn't need to take any action")
       )
       
     } else if (step_counter$process_step == 4) {
@@ -128,7 +132,9 @@ server <- function(input, output, session) {
         color = color,
         h4("Update personal and global best(local level):"),
         h2("compares that value (from the 
-        step before) to it's previous best value, and if it's greater-> updates it")
+        step before) to it's previous best value, and if it's greater-> updates it: We assume that the new position is
+        not better than the personal or teams best location, so the person starts from the new position. The person
+        walks again 5 km in each direction.")
       )
       
     } else if (step_counter$process_step == 5) {
@@ -137,15 +143,20 @@ server <- function(input, output, session) {
         color = color,
         h4("Update velocity and position of particle (vicinity level):"),
         h2("We look at a small set of particels, in some way it changes his velocity
-        we are taking the sum of the behaviours we just had before")
+        we are taking the sum of the behaviours we just had before:If we change the distance to 10 km,
+        the person will end up somewhere in this grey area. 
+        You can see the areas for the first distance and for the second distance.")
       )
       
     } else if (step_counter$process_step == 6) {
       
       valueBox(
+        h4("Conversion Criteria met-Yes(global level): "),
+        color = "light-blue",
+        h2("The whole system takes it best til know -> This is already the best possible: We see, 
+        that is the whole teams works together, they will find the minimum of the mountain region."),
         color = color,
-        h4("Conversion Criteria met-Yes (global level): "),
-        h2("The whole system takes it best til know -> This is already the best possible")
+       
       )
       
     } else if (step_counter$process_step == 7) {

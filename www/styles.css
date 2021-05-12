@@ -1,0 +1,30 @@
+
+
+body {
+  word-wrap: break-word; /* prevent tab overlap*/
+  color: black; /* text color */
+  background-color: #F5F5F5
+;
+}
+
+/*default panel*/
+.tabbable > .nav > li > a {
+  color: grey
+}
+
+/* selected panel*/
+.tabbable > .nav > li[class=active] > a {
+  color:#e2001a
+}
+
+#sidebar {
+  /*background-color: black;*/
+}
+
+.small-box.bg-aqua { 
+  background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;
+}
+
+.nav-tabs-custom .nav-tabs li.active {
+  border-top-color: #d73925;
+}

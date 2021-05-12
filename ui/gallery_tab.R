@@ -6,7 +6,7 @@ gallery_tab = tabPanel(
   br(),
   
   sidebarLayout(
-    sidebarPanel(
+    sidebarPanel(id="sidebar",
       selectInput(
         inputId = "function_type_select",
         label = "Type of Function:",
