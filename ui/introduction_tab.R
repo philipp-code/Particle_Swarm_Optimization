@@ -18,7 +18,10 @@ introduction_tab = tabPanel(
            
            uiOutput("process_step_e"), align = "center"
     ),
-    column(4, br(),
+    column(4, 
+           fluidRow(
+             actionButton("intro_info_button", icon("info"))
+           ),
            valueBoxOutput("explanation_box", width = "70%")
            , align = "left"
     )

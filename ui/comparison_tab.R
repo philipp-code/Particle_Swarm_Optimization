@@ -2,7 +2,11 @@
 
 comparison_tab = tabPanel("Optimization Comparison",
          icon = icon("chart-bar"),
-         br(),
+         
+         fluidRow(
+           actionButton("compare_info_button", icon("info"))
+         ),
+         
          sidebarLayout(
            sidebarPanel(id="sidebar",
              
@@ -41,9 +45,9 @@ comparison_tab = tabPanel("Optimization Comparison",
              
            ),
            mainPanel(
-             fluidRow(
-               actionButton("compare_info_button", icon("info"))
-             ),
+             
+             br(), br(),
+        
              fluidRow(
                infoBoxOutput("pso_box", width = 6) %>% withSpinner(color="red"),
                infoBoxOutput("abc_box", width = 6) %>% withSpinner(color="red")

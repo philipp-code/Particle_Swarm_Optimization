@@ -10,6 +10,12 @@ source("util/function_gallery_plots.R")
 server <- function(input, output, session) {
   
   #=================== Introduction ===================================
+  
+  observeEvent(input$intro_info_button, {
+    sendSweetAlert(session, title = "How to navigate", text = "Here you find a description of the algorithm.
+                   Use the buttons to scroll through individual steps of the process.", type = "info")
+  })
+  
   step_counter <- reactiveValues(process_step = 1)
   
   observeEvent(input$process_start, {
@@ -102,7 +108,7 @@ server <- function(input, output, session) {
       
       valueBox(
         color = color, subtitle = "",
-        h2("The PSO algorithm is a stochastic optimization technique. It simulates animal's 
+        h2("The PSO algorithm is a stochastic optimization technique. It simulates animals' 
             social behavior cooperating with each in a swarm in order to find food.")
       )
       
@@ -174,10 +180,10 @@ server <- function(input, output, session) {
   
   #================= "VISUALIZATION OF ALGORITHM" functionality ============================
   
-  observeEvent(input$gallery_info_button, {
-    sendSweetAlert(session, title = "How to navigate", text = "Visualize different functions in this gallery.
-                   You can change the function, color, and opacity to your liking. Feel free to take a screenshot 
-                   with the camera icon above the plot.", type = "info")
+  observeEvent(input$vis_info_button, {
+    sendSweetAlert(session, title = "How to navigate", text = "On this page the algorithm comes alive.
+                   Change input parameters on the left and start the iterations. Now you will see the 
+                   particles searching for the optimum.", type = "info")
   })
   
   
@@ -223,6 +229,12 @@ server <- function(input, output, session) {
   })
   
   #================= Gallery functionality ============================
+  
+  observeEvent(input$gallery_info_button, {
+    sendSweetAlert(session, title = "How to navigate", text = "Visualize different functions in this gallery.
+                   You can change the function, color, and opacity to your liking. Feel free to take a screenshot 
+                   with the camera icon above the plot.", type = "info")
+  })
   
   observe({
     # change function input based on function type -> to Non-Continuous
