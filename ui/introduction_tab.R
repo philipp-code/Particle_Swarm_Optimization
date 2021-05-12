@@ -5,6 +5,8 @@ introduction_tab = tabPanel(
     "Introduction",
     icon = icon("info"),
     
+    mainPanel(
+    
     column(3,
            align = "center",
            br(), br(),
@@ -32,4 +34,5 @@ introduction_tab = tabPanel(
     )
   )
   
-  
+)
+

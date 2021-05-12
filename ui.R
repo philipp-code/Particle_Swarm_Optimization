@@ -14,6 +14,8 @@ source("ui/comparison_tab.R")
 ui <- fluidPage(
   title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
   theme = shinytheme("united"),
+  setBackgroundColor("#F5F9FC"),
+  
   useShinydashboard(),
   
   tags$head(tags$style(
@@ -25,9 +27,10 @@ ui <- fluidPage(
     column(3, img(height = 110, src = "dhbw_logo.png"))
   )),
   
-  tabsetPanel(introduction_tab, 
-              gallery_tab,
-              visualization_tab,
-              comparison_tab
+  tabBox( width = 12,
+    introduction_tab, 
+    gallery_tab,
+    visualization_tab,
+    comparison_tab
   )
 )
