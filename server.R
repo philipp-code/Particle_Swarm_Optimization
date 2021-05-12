@@ -341,48 +341,48 @@ server <- function(input, output, session) {
   }
 
   
-  output$pso_box <- renderValueBox({
+  output$pso_box <- renderInfoBox({
     
-    valueBox(
+    infoBox(
       
-      h4("Particle Swarm Optimization"),
+      h4("Particle Swarm Optimization"), icon = icon("dove"),
       color = colorpicker(output_staging$opti_results[["PSO"]],output_staging$opti_results),
       h2("MIN: ", output_staging$opti_results[["PSO"]])
     ) 
   })
   
-  output$gbs_box <- renderValueBox({
-    valueBox(
-      h4("Gravitational Based Search"),
+  output$gbs_box <- renderInfoBox({
+    infoBox(
+      h4("Gravitational Based Search"), icon = icon("grav"),
       color = colorpicker(output_staging$opti_results[["GBS"]],output_staging$opti_results),
       h2("MIN: ", output_staging$opti_results[["GBS"]])
     )})
   
-  output$abc_box <- renderValueBox({
+  output$abc_box <- renderInfoBox({
 
-    valueBox(
-      h4("Artificial Bee Colony"),
+    infoBox(
+      h4("Artificial Bee Colony"), icon = icon("forumbee"),
       color = colorpicker(output_staging$opti_results[["ABC"]],output_staging$opti_results),
       h2("MIN: ", output_staging$opti_results[["ABC"]])
     )})
   
-  output$ga_box <- renderValueBox({
-    valueBox(
-      h4("Genetic Algorithm"),
+  output$ga_box <- renderInfoBox({
+    infoBox(
+      h4("Genetic Algorithm"), icon = icon("dna"),
       color = colorpicker(output_staging$opti_results[["GA"]],output_staging$opti_results),
       h2("MIN: ", output_staging$opti_results[["GA"]])
     )})
   
-  output$gwo_box <- renderValueBox({
-    valueBox(
-      h4("Grey Wolf Optimize"),
+  output$gwo_box <- renderInfoBox({
+    infoBox(
+      h4("Grey Wolf Optimize"), icon = icon("wolf-pack-battalion"),
       color = colorpicker(output_staging$opti_results[["GWO"]],output_staging$opti_results),
       h2("MIN: ", output_staging$opti_results[["GWO"]])
     )})
   
-  output$ffa_box <- renderValueBox({
-    valueBox(
-      h4("Firefly Algorithm"),
+  output$ffa_box <- renderInfoBox({
+    infoBox(
+      h4("Firefly Algorithm"), icon = icon("bug"),
       color = colorpicker(output_staging$opti_results[["FFA"]],output_staging$opti_results),
       h2("MIN: ", output_staging$opti_results[["FFA"]])
   )})

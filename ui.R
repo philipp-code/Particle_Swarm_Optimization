@@ -1,6 +1,6 @@
 library(plotly)
 library(shinyWidgets)
-library(shinydashboard) # use for box
+library(shinydashboard) 
 library(shinycssloaders) # use for loading icon
 library(shinythemes)
 

@@ -43,19 +43,19 @@ comparison_tab = tabPanel("Optimization Comparison",
            mainPanel(
              br(),
              fluidRow(
-               valueBoxOutput("pso_box", width = 6) %>% withSpinner(color="red"),
-               valueBoxOutput("abc_box", width = 6) %>% withSpinner(color="red")
+               infoBoxOutput("pso_box", width = 6) %>% withSpinner(color="red"),
+               infoBoxOutput("abc_box", width = 6) %>% withSpinner(color="red")
                
              ),
              
              fluidRow(
-               valueBoxOutput("ga_box", width = 6) %>% withSpinner(color="red"),
-               valueBoxOutput("gbs_box", width = 6) %>% withSpinner(color="red")
+               infoBoxOutput("ga_box", width = 6) %>% withSpinner(color="red"),
+               infoBoxOutput("gbs_box", width = 6) %>% withSpinner(color="red")
              ),
              
              fluidRow(
-               valueBoxOutput("gwo_box", width = 6) %>% withSpinner(color="red"),
-               valueBoxOutput("ffa_box", width = 6) %>% withSpinner(color="red")
+               infoBoxOutput("gwo_box", width = 6) %>% withSpinner(color="red"),
+               infoBoxOutput("ffa_box", width = 6) %>% withSpinner(color="red")
              )
              
              

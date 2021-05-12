@@ -38,9 +38,9 @@ gallery_tab = tabPanel(
     
     mainPanel(fluidRow(
       column(6,
-             plotlyOutput("plot_surface") %>% withSpinner(color="lightblue")),
+             plotlyOutput("plot_surface") %>% withSpinner(color="red")),
       column(6,
-             plotlyOutput("plot_contour") %>% withSpinner(color="lightblue"))
+             plotlyOutput("plot_contour") %>% withSpinner(color="red"))
       
     ) 
     )
