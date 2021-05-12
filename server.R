@@ -273,12 +273,12 @@ server <- function(input, output, session) {
   
   output_staging$opti_results <- ({
     results = hash()
-    results[["PSO"]] <- 1
-    results[["GBS"]] <- 1
-    results[["ABC"]] <- 1
-    results[["GA"]] <- 1
-    results[["GWO"]] <- 1
-    results[["FFA"]] <- 1
+    results[["PSO"]] <- "-"
+    results[["GBS"]] <- "-"
+    results[["ABC"]] <- "-"
+    results[["GA"]]  <- "-"
+    results[["GWO"]] <- "-"
+    results[["FFA"]] <- "-"
     
     results
   })
@@ -298,22 +298,32 @@ server <- function(input, output, session) {
     
     output_staging$opti_results <- ({
       
+      withProgress(message = 'Calculating...', value = 0, {
+        number_steps = 8
+        incProgress(1/number_steps)
+      
       results <- hash()
       r_fun <- fun()
       
       resultPSO <- PSO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                        maxIter=input$c_iterations, rangeVar = rangeVar())
+      incProgress(1/number_steps)
       resultGBS <- GBS(r_fun, optimType = "MIN", numVar=input$c_variables, numPopulation = input$c_populations,
                        maxIter = input$c_iterations, rangeVar = rangeVar(), gravitationalConst = max(rangeVar()),
                        kbest = 0.1)
+      incProgress(1/number_steps)
       resultABC <- ABC(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                        maxIter=input$c_iterations, rangeVar = rangeVar())
+      incProgress(1/number_steps)
       resultGA <- GA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                      maxIter=input$c_iterations, rangeVar = rangeVar())
+      incProgress(1/number_steps)
       resultGWO <- GWO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                        maxIter=input$c_iterations, rangeVar = rangeVar())
+      incProgress(1/number_steps)
       resultFFA <- FFA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
                        maxIter=input$c_iterations, rangeVar = rangeVar())
+      incProgress(1/number_steps)
       
       results[["PSO"]] <- round(r_fun(resultPSO), digits = 4)
       results[["GBS"]] <- round(r_fun(resultGBS), digits = 4)
@@ -322,7 +332,11 @@ server <- function(input, output, session) {
       results[["GWO"]] <- round(r_fun(resultGWO), digits = 4)
       results[["FFA"]] <- round(r_fun(resultFFA), digits = 4)
       
+      incProgress(1/number_steps)
+      
       results
+      
+      })
     })
   }
 

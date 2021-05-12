@@ -21,9 +21,19 @@ body {
   /*background-color: black;*/
 }
 
+.btn.btn-default.action-button.shiny-bound-input {color: #000000; background-color: #F5F5F5; border-color: #F5F5F5}
+
+#play_minimize {color: #FFFFFF; background-color: #d73925; border-color: #d73925}
+
 .small-box.bg-aqua { 
   background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;
 }
+
+.small-box.bg-purple { background-color: #FFFFFF !important; color: #000000 !important; border: solid; border-color: #F5F5F5; word-wrap: break-word;}
+
+.small-box.bg-black { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}
+
+.progress-bar {background-color: red;}
 
 .nav-tabs-custom .nav-tabs li.active {
   border-top-color: #d73925;

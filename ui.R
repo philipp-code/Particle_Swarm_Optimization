@@ -15,10 +15,6 @@ ui <- fluidPage(
   title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
   useShinydashboard(),
   
-  tags$style(".small-box.bg-aqua { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
-  tags$style(".small-box.bg-black { background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;}"),
-  tags$style(".nav-tabs-custom .nav-tabs li.active {border-top-color: #d73925;}"),
-  
   chooseSliderSkin("Flat", color = "#e2001a"),
       
   tags$head(
@@ -28,7 +24,7 @@ ui <- fluidPage(
 
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
-    column(3, img(height = 110, src = "dhbw_logo.png")),
+    column(3, img(height = 110, src = "dhbw_logo.png"))
     
   )),
   
