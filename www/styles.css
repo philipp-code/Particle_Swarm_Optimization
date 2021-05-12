@@ -25,7 +25,7 @@ body {
 #play_minimize {color: #FFFFFF; background-color: #d73925; border-color: #d73925}
 
 .small-box.bg-aqua { 
-  background-color: #FFFFFF !important; color: #000000 !important; word-wrap: break-word;
+  background-color: #FFFFFF !important; color: #000000 !important; box-shadow: none !important; word-wrap: break-word;
 }
 
 .bg-black {background-color: #D3D3D3 !important; font-style: normal !important;}
@@ -40,3 +40,9 @@ body {
 
 /* prevent icons from being italic */
 fa { font-style: normal !important;} 
+
+#compare_info_button {color: #FFFFFF; background-color: #d73925; margin-bottom: 20px;  margin-right: 20px; float: right; width: 30px; height: 30px;}
+
+#gallery_info_button {color: #FFFFFF; background-color: #d73925; margin-right: 20px; float: right; width: 30px; height: 30px;}
+
+.swal2-confirmed {color: #FFFFFF !important; background-color: #d73925 !important;}

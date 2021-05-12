@@ -172,6 +172,13 @@ server <- function(input, output, session) {
   
   #================= "VISUALIZATION OF ALGORITHM" functionality ============================
   
+  observeEvent(input$gallery_info_button, {
+    sendSweetAlert(session, title = "How to navigate", text = "Visualize different functions in this gallery.
+                   You can change the function, color, and opacity to your liking. Feel free to take a screenshot 
+                   with the camera icon above the plot.", type = "info")
+  })
+  
+  
   max_iterations <- 100
   #initalize pso
   pso = NULL
@@ -268,6 +275,13 @@ server <- function(input, output, session) {
   })
   
   #================= Comparison functionality ============================
+  
+  observeEvent(input$compare_info_button, {
+    sendSweetAlert(session, title = "How to navigate", text = "Adjust the input parameters on the left to see how 
+                       different algorithms compare to each other. The best ones will turn green
+                       and the worst ones red. Note that with high parameter values the 
+                       calculations may take a while.", type = "info")
+    })
   
   output_staging <- reactiveValues()
   
