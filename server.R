@@ -70,22 +70,22 @@ server <- function(input, output, session) {
       img(src = "cover.jpg", height = 500)
       
     } else if (step_counter$process_step == 2) {
-      img(src = "Example_1.png", height = 500)
+      img(src = "1_example.png", height = 500)
       
     } else if (step_counter$process_step == 3) {
-      img(src = "Example_2.png", height = 500)
+      img(src = "2_example.png", height = 500)
       
     } else if (step_counter$process_step == 4) {
-      img(src = "Example_3.png", height = 500)
+      img(src = "3_example.png", height = 500)
       
     } else if (step_counter$process_step == 5) {
-      img(src = "Example_8.png", height = 500)
+      img(src = "4_example.png", height = 500)
       
     } else if (step_counter$process_step == 6) {
-      img(src = "Example_9.png", height = 500)
+      img(src = "5_example.png", height = 500)
       
     } else if (step_counter$process_step == 7) {
-      img(src = "Example_2.png", height = 500)
+      img(src = "2_example.png", height = 500)
       
     }}
   )
