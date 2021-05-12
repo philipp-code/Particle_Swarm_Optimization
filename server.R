@@ -143,7 +143,9 @@ server <- function(input, output, session) {
         color = color,
         h4("Update velocity and position of particle (vicinity level):"),
         h2("We look at a small set of particels, in some way it changes his velocity
-        we are taking the sum of the behaviours we just had before")
+        we are taking the sum of the behaviours we just had before:If we change the distance to 10 km,
+        the person will end up somewhere in this grey area. 
+        You can see the areas for the first distance and for the second distance.")
       )
       
     } else if (step_counter$process_step == 6) {
