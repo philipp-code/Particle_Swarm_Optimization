@@ -153,10 +153,10 @@ server <- function(input, output, session) {
       valueBox(
         h4("Conversion Criteria met-Yes(global level): "),
         color = "light-blue",
-        h2("The whole system takes it best til know -> This is already the best possible"),
+        h2("The whole system takes it best til know -> This is already the best possible: We see, 
+        that is the whole teams works together, they will find the minimum of the mountain region."),
         color = color,
-        h4("Conversion Criteria met-Yes (global level): "),
-        h2("The whole system takes it best til know -> This is already the best possible")
+       
       )
       
     } else if (step_counter$process_step == 7) {
