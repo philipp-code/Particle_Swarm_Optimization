@@ -12,15 +12,15 @@ source("ui/comparison_tab.R")
 #========================== UI ===========================
 #=========================================================
 ui <- fluidPage(
-  title = tags$head(tags$title("Particle Swarm Optimization"), tags$link(rel="shortcut icon", href="favicon.jpg")),
+  title = tags$head(tags$title("Particle Swarm Optimization"), 
+  tags$link(rel="shortcut icon", href="favicon.jpg")),
   useShinydashboard(),
   
   chooseSliderSkin("Flat", color = "#e2001a"),
       
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
-    tags$style(
-  )),
+),
 
   titlePanel(fluidRow(
     column(9, br(), "Particle Swarm Optimization"),
@@ -33,6 +33,12 @@ ui <- fluidPage(
     gallery_tab,
     visualization_tab,
     comparison_tab
-  )
+  ),
   
+  tags$footer(HTML('© Copyright 2021 <br> 
+                   Katerina Matysova - Frederik Dammeier - Julia Albrecht - Philipp Schneider <br> 
+                   DHBW Ravensburg <br><br>
+                   <a href="https://github.com/philipp-code/Particle_Swarm_Optimization.git"> Visit the GitHub-Repo</a>
+                   '), align = "center")
+              
 )
