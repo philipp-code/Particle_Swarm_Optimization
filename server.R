@@ -129,9 +129,7 @@ server <- function(input, output, session) {
         subtitle = "",
         h2("At each time step each particle computes
         the value of the fitness function at it's current position: Each person walks for example
-        5 km in every of the three directions and gets a new position.
-        If this new position is better than the personal or team best loaction the person needs 
-        to update it's recall, if not, the person doesn't need to take any action")
+        5 km in every of the three directions and gets a new position.")
       )
       
     } else if (step_counter$process_step == 4) {
