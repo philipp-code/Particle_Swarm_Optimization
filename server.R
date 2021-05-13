@@ -119,7 +119,7 @@ server <- function(input, output, session) {
         subtitle = "",
         h2("Starting positions of 
         the particles are distributed over the whole room: In this example
-        we have three people who want to find the minimum in a mountain region")
+        we have three people who want to find the minimum in a mountain region.")
       )
       
     } else if (step_counter$process_step == 3) {
@@ -150,7 +150,7 @@ server <- function(input, output, session) {
         color = color,
         subtitle = "",
         h2("We look at a small set of particels, in some way it changes his velocity
-        we are taking the sum of the behaviours we just had before:If we change the distance to 10 km,
+        we are taking the sum of the behaviours we just had before: If we change the distance to 10 km,
         the person will end up somewhere in this grey area. 
         You can see the areas for the first distance and for the second distance.")
       )
@@ -160,7 +160,7 @@ server <- function(input, output, session) {
       valueBox(
         subtitle = "",
         h2("The whole team takes it's best until now -> This is already the best possible: We see, 
-        that is the whole teams works together, they will find the minimum of the mountain region."),
+        that if the whole team works together, they will find the minimum of the mountain region."),
         color = color
        
       )
@@ -170,7 +170,7 @@ server <- function(input, output, session) {
       valueBox(
         color = color,
         subtitle = "",
-        h2("It is not the best possible, we need to do it again")
+        h2("It is not the best possible, so the team needs to do it again.")
       )
       
     }
