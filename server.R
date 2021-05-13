@@ -139,7 +139,7 @@ server <- function(input, output, session) {
         color = color,
         subtitle = "",
         h2("Compares that value (from the 
-        step before) to it's previous best value, and if it's greater-> updates it: We assume that the new position is
+        step before) to it's previous best value, and if it's greater -> updates it: We assume that the new position is
         not better than the personal or teams best location, so the person starts from the new position. The person
         walks again 5 km in each direction.")
       )
@@ -159,7 +159,7 @@ server <- function(input, output, session) {
       
       valueBox(
         subtitle = "",
-        h2("The whole system takes it best til know -> This is already the best possible: We see, 
+        h2("The whole team takes it's best until now -> This is already the best possible: We see, 
         that is the whole teams works together, they will find the minimum of the mountain region."),
         color = color
        
