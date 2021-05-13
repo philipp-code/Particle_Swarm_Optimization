@@ -140,7 +140,7 @@ server <- function(input, output, session) {
       valueBox(
         color = color,
         subtitle = "",
-        h2("compares that value (from the 
+        h2("Compares that value (from the 
         step before) to it's previous best value, and if it's greater-> updates it: We assume that the new position is
         not better than the personal or teams best location, so the person starts from the new position. The person
         walks again 5 km in each direction.")
