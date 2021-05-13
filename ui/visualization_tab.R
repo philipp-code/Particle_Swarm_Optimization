@@ -1,11 +1,10 @@
 #================= "VISUALIZATION OF ALGORITHM" functionality ============================
+
 visualization_tab = tabPanel(
   "Visualization of Algorithm",
   icon = icon("glyphicon glyphicon-eye-open", lib = "glyphicon"),
   
-  fluidRow(
-    actionButton("vis_info_button", icon("info"))
-  ),
+  fluidRow(actionButton("vis_info_button", icon("info"))),
   
   sidebarLayout(
     sidebarPanel(
@@ -76,9 +75,7 @@ visualization_tab = tabPanel(
       )
     ),
     
-    mainPanel(
-      
-      fluidRow(column(
+    mainPanel(fluidRow(column(
       12,
       align = "center",
       plotOutput("render_particles", height = "auto", width = "70%")

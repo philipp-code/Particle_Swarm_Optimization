@@ -4,25 +4,33 @@ library(hash) # use for hashmap
 
 source("util/PSO.R")
 source("util/function_gallery_plots.R")
+
 #=========================================================
 #======================= Server ==========================
 #=========================================================
+
 server <- function(input, output, session) {
   
   #=================== Introduction ===================================
   
+  # info button
   observeEvent(input$intro_info_button, {
-    sendSweetAlert(session, title = "How to navigate", text = "Here you find a description of the algorithm.
-                   Use the buttons to scroll through individual steps of the process.", btn_colors = "#d73925")
+    sendSweetAlert(
+      session,
+      title = "How to navigate",
+      text = "Here you find a description of the algorithm.
+      Use the buttons to scroll through individual steps of the process.",
+      btn_colors = "#d73925"
+    )
   })
   
+  # process step count
   step_counter <- reactiveValues(process_step = 1)
   
   observeEvent(input$process_start, {
     step_counter$process_step <- 2
     
   })
-  
   
   observeEvent(input$process_f, {
     # button to go forward
@@ -44,8 +52,8 @@ server <- function(input, output, session) {
     }
   })
   
+  # insert process picture based on step variable
   output$process_step_n <- renderUI({
-    
     width = "100%"
     
     if (step_counter$process_step == 1) {
@@ -72,8 +80,8 @@ server <- function(input, output, session) {
     }
   })
   
+  # insert description picture based on step variable
   output$process_step_e <- renderUI({
-    
     width = "100%"
     
     if (step_counter$process_step == 1) {
@@ -97,40 +105,43 @@ server <- function(input, output, session) {
     } else if (step_counter$process_step == 7) {
       img(src = "2_example.png", width = width)
       
-    }}
-  )
+    }
+  })
   
+  # insert explanation based on step variable
   output$explanation_box <- renderValueBox({
-    
     color = "aqua"
     
     if (step_counter$process_step == 1) {
-      
       valueBox(
-        color = color, subtitle = "",
-        h2("The PSO algorithm is a stochastic optimization technique. It simulates animals' 
-            social behavior cooperating with each in a swarm in order to find food.")
-      )
+        color = color,
+        subtitle = "",
+        h2(
+          "The PSO algorithm is a stochastic optimization technique. It simulates animals'
+          social behavior cooperating with each other in a swarm in order to find food."
+        )
+        )
       
     } else if (step_counter$process_step == 2) {
-      
       valueBox(
         color = color,
         subtitle = "",
-        h2("Starting positions of 
-        the particles are distributed over the whole room: In this example
-        we have three people who want to find the minimum in a mountain region.")
-      )
+        h2(
+          "Starting positions of the particles are distributed across the area of interest. To visualize, 
+          here we have three people searching for the lowest valley in a mountain region."
+        )
+        )
       
     } else if (step_counter$process_step == 3) {
-      
       valueBox(
         color = color,
         subtitle = "",
-        h2("At each time step each particle computes
-        the value of the fitness function at it's current position: Each person walks for example
-        5 km in every of the three directions and gets a new position.")
-      )
+        h2(
+          "At each time step the particles compute 
+          the value of the fitness function at their current position. For example, each person walks
+          5 km in every of the three directions and gets a new position."
+        )
+        )
       
     } else if (step_counter$process_step == 4) {
       img(src = "Example_3.png", height = 400)
@@ -138,39 +149,40 @@ server <- function(input, output, session) {
       valueBox(
         color = color,
         subtitle = "",
-        h2("Compares that value (from the 
-        step before) to it's previous best value, and if it's greater -> updates it: We assume that the new position is
-        not better than the personal or teams best location, so the person starts from the new position. The person
-        walks again 5 km in each direction.")
+        h2(
+          "The particles compare the new positions to their previous best value and if it's greater, they update it. If the new position is
+          not better than the personal or the team's best location, the person starts from the new position and 
+          walks again 5 km in each direction."
       )
+        )
       
     } else if (step_counter$process_step == 5) {
-      
       valueBox(
         color = color,
         subtitle = "",
-        h2("We look at a small set of particels, in some way it changes his velocity
-        we are taking the sum of the behaviours we just had before: If we change the distance to 10 km,
-        the person will end up somewhere in this grey area. 
-        You can see the areas for the first distance and for the second distance.")
-      )
+        h2(
+          "We look at how a small set of particels change their velocity by taking the sum of behaviors 
+          described before. If we change the distance to 10 km, the person will end up somewhere in the grey area.
+          Here you can see the areas for the first distance and for the second distance."
+        )
+        )
       
     } else if (step_counter$process_step == 6) {
-      
       valueBox(
         subtitle = "",
-        h2("The whole team takes it's best until now -> This is already the best possible: We see, 
-        that if the whole team works together, they will find the minimum of the mountain region."),
+        h2(
+          "The whole team takes its best until now and if it's the best possible, the algorithm converges. We see 
+          that if the whole team works together, they will find the valley in the mountain region."
+        ),
         color = color
-       
-      )
+        
+        )
       
     } else if (step_counter$process_step == 7) {
-      
       valueBox(
         color = color,
         subtitle = "",
-        h2("It is not the best possible, so the team needs to do it again.")
+        h2("If it is not the best possible, the team has to start the search again.")
       )
       
     }
@@ -179,9 +191,14 @@ server <- function(input, output, session) {
   #================= "VISUALIZATION OF ALGORITHM" functionality ============================
   
   observeEvent(input$vis_info_button, {
-    sendSweetAlert(session, title = "How to navigate", text = "On this page the algorithm comes alive.
-                   Change input parameters on the left and start the iterations. Now you will see the 
-                   particles searching for the optimum.", btn_colors = "#d73925")
+    sendSweetAlert(
+      session,
+      title = "How to navigate",
+      text = "On this page the algorithm comes alive.
+      Change input parameters on the left and start the iterations. Now you will see the
+      particles searching for the optimum.",
+      btn_colors = "#d73925"
+    )
   })
   
   
@@ -228,10 +245,16 @@ server <- function(input, output, session) {
   
   #================= Gallery functionality ============================
   
+  # info button
   observeEvent(input$gallery_info_button, {
-    sendSweetAlert(session, title = "How to navigate", text = "Visualize different functions in this gallery.
-                   You can change the function, color, and opacity to your liking. Feel free to take a screenshot 
-                   with the camera icon above the plot.", btn_colors = "#d73925")
+    sendSweetAlert(
+      session,
+      title = "How to navigate",
+      text = "Visualize different functions in this gallery.
+      You can change the function, color, and opacity to your liking. Feel free to take a screenshot
+      with the camera icon above the plot.",
+      btn_colors = "#d73925"
+    )
   })
   
   observe({
@@ -258,6 +281,7 @@ server <- function(input, output, session) {
       )
   })
   
+  # create 3D Plot
   output$plot_surface <- renderPlotly({
     req(input$function_select)
     z <- generate_gallery_plot(input$function_select)
@@ -271,6 +295,7 @@ server <- function(input, output, session) {
     
   })
   
+  # create contour plot
   output$plot_contour <- renderPlotly({
     req(input$function_select)
     z <- generate_gallery_plot(input$function_select)
@@ -288,13 +313,20 @@ server <- function(input, output, session) {
   
   #================= Comparison functionality ============================
   
+  # info button
   observeEvent(input$compare_info_button, {
-    sendSweetAlert(session, title = "How to navigate", text = "Adjust the input parameters on the left to see how 
-                       different algorithms compare to each other. The best ones will turn green
-                       and the worst ones red. Note that with high parameter values the 
-                       calculations may take a while.", btn_colors = "#d73925")
-    })
+    sendSweetAlert(
+      session,
+      title = "How to navigate",
+      text = "Adjust the input parameters on the left to see how
+      different algorithms compare to each other. The best ones will turn green
+      and the worst ones red. Note that with high parameter values the
+      calculations may take a while.",
+      btn_colors = "#d73925"
+    )
+  })
   
+  # prepare input before activate button is pressed
   output_staging <- reactiveValues()
   
   output_staging$opti_results <- ({
@@ -309,109 +341,189 @@ server <- function(input, output, session) {
     results
   })
   
-  observeEvent(input$play_minimize,{  update_results()  })
+  # start calculation on button press
+  observeEvent(input$play_minimize, {
+    update_results()
+  })
   
   fun <- reactive({
+    # get function
     generate_comparison_function(input$c_function)[[1]]
   })
   
   rangeVar <- reactive({
-    out_lims<- c(generate_comparison_function(input$c_function)[[2]], generate_comparison_function(input$c_function)[[3]])
-    matrix(out_lims, nrow=2)
+    out_lims <-
+      c(
+        # get function area
+        generate_comparison_function(input$c_function)[[2]],
+        generate_comparison_function(input$c_function)[[3]]
+      )
+    matrix(out_lims, nrow = 2)
   })
   
-  update_results <- function(){
-    
+  update_results <- function() {
     output_staging$opti_results <- ({
       
+      # create progress bar
       withProgress(message = 'Calculating...', value = 0, {
         number_steps = 8
-        incProgress(1/number_steps)
-      
-      results <- hash()
-      r_fun <- fun()
-      
-      resultPSO <- PSO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                       maxIter=input$c_iterations, rangeVar = rangeVar())
-      incProgress(1/number_steps)
-      resultGBS <- GBS(r_fun, optimType = "MIN", numVar=input$c_variables, numPopulation = input$c_populations,
-                       maxIter = input$c_iterations, rangeVar = rangeVar(), gravitationalConst = max(rangeVar()),
-                       kbest = 0.1)
-      incProgress(1/number_steps)
-      resultABC <- ABC(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                       maxIter=input$c_iterations, rangeVar = rangeVar())
-      incProgress(1/number_steps)
-      resultGA <- GA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                     maxIter=input$c_iterations, rangeVar = rangeVar())
-      incProgress(1/number_steps)
-      resultGWO <- GWO(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                       maxIter=input$c_iterations, rangeVar = rangeVar())
-      incProgress(1/number_steps)
-      resultFFA <- FFA(r_fun, optimType="MIN", numVar=input$c_variables, numPopulation=input$c_populations,
-                       maxIter=input$c_iterations, rangeVar = rangeVar())
-      incProgress(1/number_steps)
-      
-      results[["PSO"]] <- round(r_fun(resultPSO), digits = 4)
-      results[["GBS"]] <- round(r_fun(resultGBS), digits = 4)
-      results[["ABC"]] <- round(r_fun(resultABC), digits = 4)
-      results[["GA"]] <- round(r_fun(resultGA), digits = 4)
-      results[["GWO"]] <- round(r_fun(resultGWO), digits = 4)
-      results[["FFA"]] <- round(r_fun(resultFFA), digits = 4)
-      
-      incProgress(1/number_steps)
-      
-      results
-      
+        incProgress(1 / number_steps)
+        
+        results <- hash()
+        r_fun <- fun()
+        
+        # for each algorithm, get the result
+        resultPSO <-
+          PSO(
+            r_fun,
+            optimType = "MIN",
+            numVar = input$c_variables,
+            numPopulation = input$c_populations,
+            maxIter = input$c_iterations,
+            rangeVar = rangeVar()
+          )
+        incProgress(1 / number_steps)
+        resultGBS <-
+          GBS(
+            r_fun,
+            optimType = "MIN",
+            numVar = input$c_variables,
+            numPopulation = input$c_populations,
+            maxIter = input$c_iterations,
+            rangeVar = rangeVar(),
+            gravitationalConst = max(rangeVar()),
+            kbest = 0.1
+          )
+        incProgress(1 / number_steps)
+        resultABC <-
+          ABC(
+            r_fun,
+            optimType = "MIN",
+            numVar = input$c_variables,
+            numPopulation = input$c_populations,
+            maxIter = input$c_iterations,
+            rangeVar = rangeVar()
+          )
+        incProgress(1 / number_steps)
+        resultGA <-
+          GA(
+            r_fun,
+            optimType = "MIN",
+            numVar = input$c_variables,
+            numPopulation = input$c_populations,
+            maxIter = input$c_iterations,
+            rangeVar = rangeVar()
+          )
+        incProgress(1 / number_steps)
+        resultGWO <-
+          GWO(
+            r_fun,
+            optimType = "MIN",
+            numVar = input$c_variables,
+            numPopulation = input$c_populations,
+            maxIter = input$c_iterations,
+            rangeVar = rangeVar()
+          )
+        incProgress(1 / number_steps)
+        resultFFA <-
+          FFA(
+            r_fun,
+            optimType = "MIN",
+            numVar = input$c_variables,
+            numPopulation = input$c_populations,
+            maxIter = input$c_iterations,
+            rangeVar = rangeVar()
+          )
+        incProgress(1 / number_steps)
+        
+        # store results in hash map
+        results[["PSO"]] <- round(r_fun(resultPSO), digits = 4)
+        results[["GBS"]] <- round(r_fun(resultGBS), digits = 4)
+        results[["ABC"]] <- round(r_fun(resultABC), digits = 4)
+        results[["GA"]] <- round(r_fun(resultGA), digits = 4)
+        results[["GWO"]] <- round(r_fun(resultGWO), digits = 4)
+        results[["FFA"]] <- round(r_fun(resultFFA), digits = 4)
+        
+        incProgress(1 / number_steps)
+        
+        results
+        
       })
     })
   }
-
   
+  # create output box for each algorithm
   output$pso_box <- renderInfoBox({
-    
     infoBox(
-      
-      h4("Particle Swarm Optimization"), icon = icon("dove"),
-      color = colorpicker(output_staging$opti_results[["PSO"]],output_staging$opti_results),
+      h4("Particle Swarm Optimization"),
+      icon = icon("dove"),
+      color = colorpicker(
+        output_staging$opti_results[["PSO"]],
+        output_staging$opti_results
+      ),
       h2("MIN: ", output_staging$opti_results[["PSO"]])
-    ) 
+    )
   })
   
   output$gbs_box <- renderInfoBox({
     infoBox(
-      h4("Gravitational Based Search"), icon = icon("grav"),
-      color = colorpicker(output_staging$opti_results[["GBS"]],output_staging$opti_results),
+      h4("Gravitational Based Search"),
+      icon = icon("grav"),
+      color = colorpicker(
+        output_staging$opti_results[["GBS"]],
+        output_staging$opti_results
+      ),
       h2("MIN: ", output_staging$opti_results[["GBS"]])
-    )})
+    )
+  })
   
   output$abc_box <- renderInfoBox({
-
     infoBox(
-      h4("Artificial Bee Colony"), icon = icon("forumbee"),
-      color = colorpicker(output_staging$opti_results[["ABC"]],output_staging$opti_results),
+      h4("Artificial Bee Colony"),
+      icon = icon("forumbee"),
+      color = colorpicker(
+        output_staging$opti_results[["ABC"]],
+        output_staging$opti_results
+      ),
       h2("MIN: ", output_staging$opti_results[["ABC"]])
-    )})
+    )
+  })
   
   output$ga_box <- renderInfoBox({
     infoBox(
-      h4("Genetic Algorithm"), icon = icon("dna"),
-      color = colorpicker(output_staging$opti_results[["GA"]],output_staging$opti_results),
+      h4("Genetic Algorithm"),
+      icon = icon("dna"),
+      color = colorpicker(
+        output_staging$opti_results[["GA"]],
+        output_staging$opti_results
+      ),
       h2("MIN: ", output_staging$opti_results[["GA"]])
-    )})
+    )
+  })
   
   output$gwo_box <- renderInfoBox({
     infoBox(
-      h4("Grey Wolf Optimize"), icon = icon("wolf-pack-battalion"),
-      color = colorpicker(output_staging$opti_results[["GWO"]],output_staging$opti_results),
+      h4("Grey Wolf Optimize"),
+      icon = icon("wolf-pack-battalion"),
+      color = colorpicker(
+        output_staging$opti_results[["GWO"]],
+        output_staging$opti_results
+      ),
       h2("MIN: ", output_staging$opti_results[["GWO"]])
-    )})
+    )
+  })
   
   output$ffa_box <- renderInfoBox({
     infoBox(
-      h4("Firefly Algorithm"), icon = icon("bug"),
-      color = colorpicker(output_staging$opti_results[["FFA"]],output_staging$opti_results),
+      h4("Firefly Algorithm"),
+      icon = icon("bug"),
+      color = colorpicker(
+        output_staging$opti_results[["FFA"]],
+        output_staging$opti_results
+      ),
       h2("MIN: ", output_staging$opti_results[["FFA"]])
-  )})
+    )
+  })
   
   
 }

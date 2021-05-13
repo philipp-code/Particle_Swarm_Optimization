@@ -4,12 +4,11 @@ gallery_tab = tabPanel(
   "Function Gallery",
   icon = icon("photo"),
   
-  fluidRow(
-    actionButton("gallery_info_button", icon("info"))
-  ),
+  fluidRow(actionButton("gallery_info_button", icon("info"))),
   
   sidebarLayout(
-    sidebarPanel(id="sidebar",
+    sidebarPanel(
+      id = "sidebar",
       selectInput(
         inputId = "function_type_select",
         label = "Type of Function:",
@@ -25,8 +24,13 @@ gallery_tab = tabPanel(
       selectInput(
         inputId = "color_select",
         label = "Color:",
-        choices = c("Yellow-Red" = "YlOrRd", "Yellow-Blue" = "YlGnBu", 
-                    "Darkblue-Yellow" = "viridis", "Red-Yellow-Green" = "RdYlGn", "Red-Yellow-Blue" = "Spectral")
+        choices = c(
+          "Yellow-Red" = "YlOrRd",
+          "Yellow-Blue" = "YlGnBu",
+          "Darkblue-Yellow" = "viridis",
+          "Red-Yellow-Green" = "RdYlGn",
+          "Red-Yellow-Blue" = "Spectral"
+        )
       ),
       
       sliderInput(
@@ -39,14 +43,12 @@ gallery_tab = tabPanel(
       
     ),
     
-    mainPanel(
-      fluidRow(
+    mainPanel(fluidRow(
       column(6,
-             plotlyOutput("plot_surface") %>% withSpinner(color="red")),
+             plotlyOutput("plot_surface") %>% withSpinner(color = "red")),
       column(6,
-             plotlyOutput("plot_contour") %>% withSpinner(color="red"))
+             plotlyOutput("plot_contour") %>% withSpinner(color = "red"))
       
-    ) 
-    )
+    ))
   )
 )
