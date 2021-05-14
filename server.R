@@ -11,7 +11,10 @@ source("util/function_gallery_plots.R")
 
 server <- function(input, output, session) {
   
-  #=================== Introduction ===================================
+  #====================================================================
+  # Title: Introduction
+  # Author: Katerina Matysova, Julia Albrecht
+  #====================================================================
   
   # info button
   observeEvent(input$intro_info_button, {
@@ -187,8 +190,11 @@ server <- function(input, output, session) {
       
     }
   })
-  
-  #================= "VISUALIZATION OF ALGORITHM" functionality ============================
+
+  #====================================================================
+  # Title: VISUALIZATION OF ALGORITHM
+  # Author: Frederik Dammeier, Philipp Schneider
+  #====================================================================
   
   observeEvent(input$vis_info_button, {
     sendSweetAlert(
@@ -243,7 +249,10 @@ server <- function(input, output, session) {
     session$clientData$output_render_particles_width
   })
   
-  #================= Gallery functionality ============================
+  #====================================================================
+  # Title: Function Gallery
+  # Author: Katerina Matysova
+  #====================================================================
   
   # info button
   observeEvent(input$gallery_info_button, {
@@ -311,7 +320,10 @@ server <- function(input, output, session) {
     
   })
   
-  #================= Comparison functionality ============================
+  #====================================================================
+  # Title: Comparison
+  # Author: Katerina Matysova
+  #====================================================================
   
   # info button
   observeEvent(input$compare_info_button, {

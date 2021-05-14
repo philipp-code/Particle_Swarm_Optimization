@@ -1,4 +1,7 @@
-#================= Gallery functionality ============================
+#====================================================================
+# Title: Function Gallery
+# Author: Katerina Matysova
+#====================================================================
 
 gallery_tab = tabPanel(
   "Function Gallery",

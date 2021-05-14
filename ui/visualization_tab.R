@@ -1,4 +1,7 @@
-#================= "VISUALIZATION OF ALGORITHM" functionality ============================
+#====================================================================
+# Title: VISUALIZATION OF ALGORITHM
+# Author: Frederik Dammeier, Philipp Schneider
+#====================================================================
 
 visualization_tab = tabPanel(
   "Visualization of Algorithm",

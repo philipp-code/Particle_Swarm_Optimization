@@ -1,4 +1,7 @@
-#=================== Introduction ===================================
+#====================================================================
+# Title: Introduction
+# Author: Katerina Matysova, Julia Albrecht
+#====================================================================
 
 introduction_tab =
   tabPanel("Introduction",
