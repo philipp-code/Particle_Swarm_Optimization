@@ -236,13 +236,17 @@ server <- function(input, output, session) {
   })
   
   output$render_particles = renderPlot({
+    # to optimize animation performance, we check whether we can just go one step further
+    # in the optimization (pso$next_i) or if we need to do a full rerun (run_pso())
     if (is.null(pso) || (input$iter != pso$iter + 1)) {
+      # do full rerun
       pso <<- pso_output()
     } else {
-      #moves particles, updates bests, updates coefficients
+      # iterate one step
+      # moves particles, updates bests, updates coefficients
       pso$next_i()
     }
-    # plot(pso$particles[ ,1], pso$particles[ ,2], xlim=c(-5, 5), ylim=c(-5, 5))
+    # plot the algorithms current state
     pso$plot_state()
   },
   height = function() {

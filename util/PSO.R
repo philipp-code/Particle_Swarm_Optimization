@@ -1,30 +1,60 @@
+# Sample function for algorithm testing.
 sample_function = function(x, y) {
   x**2 + (y + 1) ** 2 - 5 * cos(1.5 * x + 1.5) - 5 * cos(2 * y - 1.5)
 }
 
+# This class contains the main particle swarm logic
+# and a method to plot the algorithms current state.
+# It is implemented as a RefClass so that it can be instantiated.
+# pso can solve problems using two input variables (x, y)
+#
+# pso implementation inspired by https://t1p.de/y2pc
 pso = setRefClass("pso", 
                   fields = list(
+                    # the particles positions (x, y)
                     particles = "matrix",
+                    # the particles velocities
                     velocities = "matrix",
+                    # the function on which to evaluate the particles
+                    # position
                     fitness_function = "function",
+                    # a vector of c(min, max) which is used to limit both x and y.
                     search_space = "numeric",
+                    # the algorithms inertia
                     w = "numeric",
+                    # the algorithms cognitive "local" component
                     c_1 = "numeric",
+                    # the algorithms cognitive "global" component
                     c_2 = "numeric",
+                    # after how many iterations the search terminates
                     max_iter = "numeric",
+                    # whether the coefficients should shift from local focus to
+                    # global focus during the run
                     auto_coef = "logical",
+                    # the number of particles
                     N = "numeric",
+                    # the particles individual best positions (x, y)
                     p_bests = "matrix",
+                    # the values of fitness_function at those positions
                     p_bests_values = "numeric",
+                    # the swarms best position (x, y)
                     g_best = "numeric",
+                    # the value of fitness_function at that position
                     g_best_value = "numeric",
+                    # the step at which the algorithm is currently at
                     iter = "numeric",
+                    # whether the algorithm has terminated.
                     is_running = "logical",
+                    # plot space for the visualization
+                    # for performance reasons
                     x_image = "matrix",
+                    # precalculated function values for the visualization
                     z = "matrix",
+                    # whether to normalize the arrows in the visualization
                     norm_arrow = "logical"
                   ),
                   methods = list(
+                    # main logic
                     next_i = function(){
                       if (iter > 0) {
                         move_particles()
@@ -32,9 +62,11 @@ pso = setRefClass("pso",
                         update_coef()
                       }
                       iter <<- iter + 1
+                      # check if terminated
                       is_running <<- is_running && iter < max_iter
                       is_running
                     },
+                    # update the coefficients if "auto_coef"=True
                     update_coef = function(){
                       if (auto_coef) {
                         t = iter
@@ -44,6 +76,7 @@ pso = setRefClass("pso",
                         c_2 <<- 3 * t / n + 0.5
                       }
                     },
+                    # search logic
                     move_particles = function(){
                       # add inertia
                       new_velocities = w * velocities
@@ -66,11 +99,11 @@ pso = setRefClass("pso",
                       velocities <<- new_velocities
                       particles <<- particles + new_velocities
                       
-                      # limit particle positions to the search space ('nearest' approach)
-                      # https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjq9rDR_rbwAhWEh_0HHU5_A1EQFjACegQIBRAD&url=https%3A%2F%2Fopus4.kobv.de%2Fopus4-fau%2Ffiles%2F1328%2FDissertationHelwig.pdf&usg=AOvVaw3VIMA8frtDM1obIqua6ZiC
+                      # limit particle positions to the search space ('nearest' approach; https://t1p.de/fjvh)
                       particles[particles < search_space[1]] <<- search_space[1]
                       particles[particles > search_space[2]] <<- search_space[2]
                     },
+                    # optimization logic
                     update_bests = function(){
                       fits = fitness_function(particles[ ,1], particles[ ,2])
                       
@@ -87,23 +120,19 @@ pso = setRefClass("pso",
                         }
                       }
                     },
-                    
+                    # visualize the algorithms state
                     plot_state = function(){
+                      # plot the background
                       image(x_image[,1], x_image[,2], z, xlab="x", ylab="y", 
+                            # add some information as the graphs title
                             main = paste("Global Best = ", round(g_best_value, digits = 4),
                                          " at [", round(g_best[1], digits = 2),
                                          ", ", round(g_best[2], digits = 2), "]",
                                          "\nLocal Coef. = ", round(c_1, digits = 2),
                                          ", Global Coef. = ", round(c_2, digits = 2), sep = ""),
-                            
-                                      #  ", auto_coef = ", auto_coef,
-                                      #  ", Normalize Arrows = ", norm_arrow,
-                                      #  ", inertia = ", w),
                             cex.main = 1)
-                      # contour(x_image[,1], x_image[,2], z, nlevels=10, add=TRUE, col="grey50")
-                      # points(particles[ ,1], particles[ ,2], pch=19, col="darkslateblue")
                       
-                      
+                      # extract x and y component from the velocity matrix
                       U = velocities[ ,1]
                       V = velocities[ ,2]
                       
@@ -114,16 +143,17 @@ pso = setRefClass("pso",
                         V = V/nor 
                       }
                       
-                      # boundary handling
+                      # calculate the particles new position
                       x_pos_2 = particles[ ,1]+U
                       y_pos_2 = particles[ ,2]+V
-                      # x_pos_2[x_pos_2 < search_space[1]] = search_space[1]
-                      # x_pos_2[x_pos_2 > search_space[2]] = search_space[2]
-                      # y_pos_2[x_pos_2 < search_space[1]] = search_space[1]
-                      # y_pos_2[x_pos_2 > search_space[2]] = search_space[2]
                       
-                      
-                      suppressWarnings(arrows(particles[ ,1], particles[ ,2], 
+                      # if arrows are too short to draw them, arrows() throws a warning.
+                      # to improve performance in later stages of the optimization run
+                      # (where all arrows are very close to the global optimum), we
+                      # suppress those warnings.
+                      suppressWarnings(
+                        # draw particles and their velocities as arrows
+                        arrows(particles[ ,1], particles[ ,2], 
                                               x_pos_2, 
                                               y_pos_2, 
                                               length=0.1, col="darkslateblue"))
@@ -132,10 +162,13 @@ pso = setRefClass("pso",
 
 
 
-
+# execute a full run of the algorithm until a given point (input_iter)
+# return the pso object
 run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_c_1, input_c_2, input_inertia, input_arrows, input_function_selected){
+  # init pso object
   pso_1 = init_pso(max_iter, n_particles, input_auto_coef, input_c_1, input_c_2, input_inertia, input_arrows, input_function_selected)
   
+  # run pso$next_i()
   while (pso_1$iter < input_iter) {
     pso_1$next_i()
   }
@@ -143,9 +176,15 @@ run_pso = function(input_iter, max_iter, n_particles, input_auto_coef, input_c_1
   pso_1
 }
 
+# initialize the pso object without running any iterations.
 init_pso = function(max_iter, input_n_particles, input_auto_coef, input_c_1, input_c_2, input_inertia, input_arrows, input_function_selected){
+  # random seed
   set.seed(31)
+  
+  # general search area
   def_area = c(-6, 6)
+  
+  # select fitness function for user input
   if (input_function_selected == "Himmelblau") {
     fitness <- function(x, y) (x*x+y-11)**2 + (x+y*y-7)**2 # himmelblau
     def_area <- c(-60, 60)
@@ -167,25 +206,25 @@ init_pso = function(max_iter, input_n_particles, input_auto_coef, input_c_1, inp
     def_area = c(-512, 512)
   }
   
-#  fitness = rosenbrock
-  
   
   n_particles = input_n_particles
   auto_coef <-input_auto_coef
   
-  #create matrix from to sequences 
+  #create image matrix from two sequences 
   x_image = matrix(c(seq(from=def_area[1],to=def_area[2],length.out=100),
                      seq(from=def_area[1],to=def_area[2],length.out=100)), ncol=2)
   
   #fill matrix-columns with values generated by the function
   z = outer(x_image[,1], x_image[,2], FUN = fitness) 
   
-  #runif can be used to produce random numbers; runif does not stand for run if
+  # runif can be used to produce random numbers; runif does not stand for run if
+  # randomly define particle start positions and velocities
   particles = cbind(runif(n = n_particles, min = def_area[1], max = def_area[2]),
                     runif(n = n_particles, min = def_area[1], max = def_area[2]))
   velocities = cbind((runif(n = n_particles, min = def_area[1], max = def_area[2]) - 0.5) / (def_area[2]-def_area[1]),
                      (runif(n = n_particles, min = def_area[1], max = def_area[2]) - 0.5) / (def_area[2]-def_area[1]))
   
+  # initialize the pso object
   pso_1 = pso(particles = particles,
               velocities = velocities,
               fitness_function = fitness,
