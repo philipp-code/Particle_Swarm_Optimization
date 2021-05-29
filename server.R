@@ -13,7 +13,7 @@ server <- function(input, output, session) {
   
   #====================================================================
   # Title: Introduction
-  # Author: Katerina Matysova, Julia Albrecht
+  # Author: Katerina Matysova, Julia Albrecht, Philipp Schneider
   #====================================================================
   
   # info button
@@ -119,31 +119,50 @@ server <- function(input, output, session) {
       valueBox(
         color = color,
         subtitle = "",
-        h2(
+        withMathJax(h2(
           "The PSO algorithm is a stochastic optimization technique. It simulates animals'
-          social behavior cooperating with each other in a swarm in order to find food."
-        )
+          social behavior cooperating with each other in a swarm in order to find food.
+          
+          "
+        ))
         )
       
     } else if (step_counter$process_step == 2) {
       valueBox(
         color = color,
         subtitle = "",
-        h2(
-          "Starting positions of the particles are distributed across the area of interest. To visualize, 
-          here we have three people searching for the lowest valley in a mountain region."
-        )
+        withMathJax(h2(
+          "Starting positions of the particles P are distributed across the area of interest. To visualize, 
+          here we have three people searching for the lowest valley in a mountain region.
+          \n $$P_i^{t} = \\left[x_{0,i}^{t}, x_{1,i}^{t}, ..., x_{n,i}^{t}\\right]$$
+          Each of these particles is in movement with a velocity allowing them to update 
+          their position over the iterations to find the global minimum.
+          \n $$V_i^{t} = \\left[v_{0,i}^{t}, v_{1,i}^{t}, ..., v_{n,i}^{t}\\right]$$"
+        ))
         )
       
     } else if (step_counter$process_step == 3) {
       valueBox(
         color = color,
         subtitle = "",
-        h2(
-          "At each time step the particles compute 
-          the value of the fitness function at their current position. For example, each person walks
-          5 km in every of the three directions and gets a new position."
-        )
+        withMathJax(h2(
+          "At each time step the particles compute the value of the fitness function at their current position. For example, each person walks
+          5 km in every of the three directions and gets a new position.
+          Generally, the next position is calculated by adding the new velocity to the current position of the particle:
+           $$P_i^{t+1} = P_i^t + V_i^{t+1}$$
+          The new velocity is calculated by adding up the different vectors:
+           $$V_i^{t+1} = {\\omega}V_{i}^{t} + c_1r_1\\left(P_{best(i)}^{t} - P_{i}^{t}\\right)+$$
+           $$c_2r_2\\left(P_{bestglobal}^{t} - P_{i}^{t}\\right)$$
+           Parameters:
+           The intertia $$\\text{}  {\\omega}\\in R^+ $$
+           defines the ability of the swarm to change its direction.
+           The coefficients for local and global best 
+           $$c_1,c_2\\in R^+$$
+           define the influence of these vectors.
+           The weights $$r_1,r_2\\in [0,2]$$ 
+           are defined randomly.
+          "
+        ))
         )
       
     } else if (step_counter$process_step == 4) {
@@ -152,31 +171,32 @@ server <- function(input, output, session) {
       valueBox(
         color = color,
         subtitle = "",
-        h2(
+        withMathJax(h2(
           "The particles compare the new positions to their previous best value and if it's greater, they update it. If the new position is
           not better than the personal or the team's best location, the person starts from the new position and 
-          walks again 5 km in each direction."
-      )
+          walks again 5 km in each direction.
+          "
+        ))
         )
       
     } else if (step_counter$process_step == 5) {
       valueBox(
         color = color,
         subtitle = "",
-        h2(
+        withMathJax(h2(
           "We look at how a small set of particels change their velocity by taking the sum of behaviors 
           described before. If we change the distance to 10 km, the person will end up somewhere in the grey area.
           Here you can see the areas for the first distance and for the second distance."
-        )
+        ))
         )
       
     } else if (step_counter$process_step == 6) {
       valueBox(
         subtitle = "",
-        h2(
+        withMathJax(h2(
           "The whole team takes its best until now and if it's the best possible, the algorithm converges. We see 
           that if the whole team works together, they will find the valley in the mountain region."
-        ),
+        )),
         color = color
         
         )
@@ -185,8 +205,9 @@ server <- function(input, output, session) {
       valueBox(
         color = color,
         subtitle = "",
-        h2("If it is not the best possible, the team has to start the search again.")
-      )
+        withMathJax(h2(
+          "If it is not the best possible, the team has to start the search again.")
+        ))
       
     }
   })

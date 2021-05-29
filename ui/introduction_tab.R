@@ -8,8 +8,9 @@ introduction_tab =
            icon = icon("book-open"),
            
            fluidRow(
-             column(3,
-                    uiOutput("process_step_n"), align = "center"),
+             column(
+               3,
+               uiOutput("process_step_n"), align = "center"),
              column(
                5,
                actionButton(
