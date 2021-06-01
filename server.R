@@ -134,10 +134,10 @@ server <- function(input, output, session) {
         withMathJax(h2(
           "Starting positions of the particles P are distributed across the area of interest. To visualize, 
           here we have three people searching for the lowest valley in a mountain region.
-          \n $$P_i^{t} = \\left[x_{0,i}^{t}, x_{1,i}^{t}, ..., x_{n,i}^{t}\\right]$$
+          \n $$\\vec{P_i} = \\left[\\vec{p_{0,i}}, \\vec{p_{1,i}}, ..., \\vec{p_{n,i}}\\right]$$
           Each of these particles is in movement with a velocity allowing them to update 
           their position over the iterations to find the global minimum.
-          \n $$V_i^{t} = \\left[v_{0,i}^{t}, v_{1,i}^{t}, ..., v_{n,i}^{t}\\right]$$"
+           \n $$\\vec{V_i} = \\left[\\vec{v_{0,i}}, \\vec{v_{1,i}}, ..., \\vec{v_{n,i}}\\right]$$"
         ))
         )
       
@@ -149,10 +149,10 @@ server <- function(input, output, session) {
           "At each time step the particles compute the value of the fitness function at their current position. For example, each person walks
           5 km in every of the three directions and gets a new position.
           Generally, the next position is calculated by adding the new velocity to the current position of the particle:
-           $$P_i^{t+1} = P_i^t + V_i^{t+1}$$
+           $$\\vec{P_{i+1}} = \\vec{P_{i}} + \\vec{V_{i+1}}$$
           The new velocity is calculated by adding up the different vectors:
-           $$V_i^{t+1} = {\\omega}V_{i}^{t} + c_1r_1\\left(P_{best(i)}^{t} - P_{i}^{t}\\right)+$$
-           $$c_2r_2\\left(P_{bestglobal}^{t} - P_{i}^{t}\\right)$$
+           $$\\vec{V_{i+1}} = {\\omega}\\vec{V_{i}} + c_1r_1\\left(\\vec{P_{best(i)}} - \\vec{P_{i}}\\right)+$$
+           $$c_2r_2\\left(\\vec{g_{best}} - \\vec{P_{i}}\\right)$$
            Parameters:
            The intertia $$\\text{}  {\\omega}\\in R^+ $$
            defines the ability of the swarm to change its direction.
